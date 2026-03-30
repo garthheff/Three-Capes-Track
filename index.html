@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tasmania Hike Viewer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --panel-height: 980px;
+      --map-ratio: 0.72;
+      --bg: #07131d;
+      --panel: rgba(8, 24, 37, 0.88);
+      --panel-2: rgba(10, 34, 45, 0.92);
+      --line: rgba(161, 205, 196, 0.16);
+      --text: #ebf5f1;
+      --muted: #9bb6ad;
+      --accent: #86d1b0;
+      --sand: #dbc39b;
+      --mist: #9ed6e0;
+      --berry: #d25f74;
+      --warn-bg: rgba(210, 95, 116, 0.12);
+      --warn-line: rgba(210, 95, 116, 0.35);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+      --trail-blue: #4da3ff;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(134, 209, 176, 0.14), transparent 25%),
+        radial-gradient(circle at 85% 12%, rgba(158, 214, 224, 0.12), transparent 22%),
+        linear-gradient(180deg, #0a1a26 0%, #07131d 56%, #081822 100%);
+      min-height: 100%;
+    }
+
+    .hero {
+      padding: 42px 22px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background:
+        linear-gradient(180deg, rgba(4,11,17,0.12), rgba(4,11,17,0.34)),
+        radial-gradient(circle at 50% -10%, rgba(219, 195, 155, 0.18), transparent 35%);
+    }
+
+    .hero-inner, .content {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      max-width: 820px;
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+
+    .content {
+      padding: 20px 22px 42px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0;
+    }
+
+    .tab {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 0.98rem;
+    }
+
+    .tab:hover {
+      transform: translateY(-1px);
+      border-color: rgba(134, 209, 176, 0.35);
+      background: rgba(134, 209, 176, 0.08);
+    }
+
+    .tab.active {
+      background: linear-gradient(180deg, rgba(134, 209, 176, 0.26), rgba(79, 159, 136, 0.26));
+      border-color: rgba(134, 209, 176, 0.5);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+    }
+
+    .card, .panel-card, .warning, .empty {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card {
+      padding: 16px 18px;
+      min-height: 100px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    .value {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .panel-card {
+      padding: 16px;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .map-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ghost-btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .ghost-btn:hover {
+      background: rgba(134, 209, 176, 0.08);
+      border-color: rgba(134, 209, 176, 0.35);
+    }
+
+    .resizable-panel {
+      resize: vertical;
+      overflow: auto;
+      min-height: 620px;
+      max-height: 1600px;
+      height: var(--panel-height);
+      display: grid;
+      grid-template-rows: minmax(360px, calc(var(--panel-height) * var(--map-ratio))) minmax(220px, 1fr);
+      gap: 16px;
+    }
+
+    .map-wrap {
+      min-height: 360px;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .chart-wrap {
+      min-height: 220px;
+      height: 100%;
+    }
+
+    .chart-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+    }
+
+    #elevationChart {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 10px;
+    }
+
+    .warning {
+      background: linear-gradient(180deg, var(--warn-bg), rgba(8, 24, 37, 0.88));
+      border-color: var(--warn-line);
+      padding: 14px 16px;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .warning.show {
+      display: block;
+    }
+
+    .empty {
+      padding: 30px 20px;
+      color: var(--muted);
+    }
+
+    .leaflet-container {
+      background: #102531;
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #0f2230;
+      color: var(--text);
+    }
+
+    @media (max-width: 980px) {
+      .resizable-panel {
+        min-height: 560px;
+        height: 78vh;
+        grid-template-rows: minmax(320px, 68%) minmax(200px, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .hero-inner {
+        padding: 0 14px;
+      }
+
+      .tab {
+        width: 100%;
+        text-align: left;
+      }
+
+      .resizable-panel {
+        min-height: 500px;
+        height: 74vh;
+        grid-template-rows: minmax(280px, 66%) minmax(180px, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>Tasmania Hike Viewer</h1>
+      <p class="subtitle">OpenStreetMap based hike viewer with tabs generated from your GPX files, a large route map, and an elevation profile linked to the map.</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="tabs" class="tabs"></div>
+
+    <section id="stats" class="stats"></section>
+
+    <section class="panel-card">
+      <div class="panel-head">
+        <div class="panel-title" id="mapTitle">Route map</div>
+        <div class="map-actions">
+          <button class="ghost-btn" id="refitBtn">Refit route</button>
+          <button class="ghost-btn" id="resetMarkerBtn">Clear marker</button>
+        </div>
+      </div>
+
+      <div id="resizablePanel" class="resizable-panel">
+        <div class="map-wrap">
+          <div id="map"></div>
+        </div>
+
+        <div class="chart-wrap">
+          <div class="panel-title" style="margin-bottom: 10px;">Elevation by distance</div>
+          <div class="chart-canvas-wrap">
+            <canvas id="elevationChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="hint">Tip: hover or tap the elevation chart to see the matching point on the map. You can resize the whole panel from its bottom edge.</div>
+    </section>
+
+    <div id="empty" class="empty" hidden></div>
+    <div id="warning" class="warning"></div>
+  </main>
+
+  <script>
+    const EARTH_RADIUS = 6371000;
+
+    const state = {
+      hikes: [],
+      activeIndex: 0,
+      map: null,
+      routeLayer: null,
+      pointMarker: null,
+      elevationChart: null,
+      resizeObserver: null
+    };
+
+    function prettyName(filename) {
+      const base = filename.replace(/^.*[\\/]/, "").replace(/\.gpx$/i, "");
+      return base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function formatKm(km) {
+      return `${km.toFixed(2)} km`;
+    }
+
+    function formatMeters(m) {
+      return `${Math.round(m)} m`;
+    }
+
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds) || seconds <= 0) return "—";
+      const hrs = Math.floor(seconds / 3600);
+      const mins = Math.floor((seconds % 3600) / 60);
+      const secs = Math.floor(seconds % 60);
+      return [hrs, mins, secs].map((v, i) => i === 0 ? String(v) : String(v).padStart(2, "0")).join(":");
+    }
+
+    function parseTime(value) {
+      const t = Date.parse(value || "");
+      return Number.isFinite(t) ? t : null;
+    }
+
+    function haversine(a, b) {
+      const toRad = d => d * Math.PI / 180;
+      const lat1 = toRad(a.lat);
+      const lat2 = toRad(b.lat);
+      const dLat = toRad(b.lat - a.lat);
+      const dLon = toRad(b.lon - a.lon);
+
+      const x =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+
+      return 2 * EARTH_RADIUS * Math.asin(Math.sqrt(x));
+    }
+
+    async function loadManifest() {
+      const res = await fetch("./data/files.json");
+      if (!res.ok) throw new Error("Could not load data/files.json");
+      const files = await res.json();
+      if (!Array.isArray(files)) throw new Error("files.json must be an array of GPX filenames");
+      return files;
+    }
+
+    async function loadGpx(file) {
+      const res = await fetch(`./data/${encodeURIComponent(file)}`);
+      if (!res.ok) throw new Error(`Could not load ${file}`);
+
+      const xmlText = await res.text();
+      const xml = new DOMParser().parseFromString(xmlText, "application/xml");
+
+      const trkpts = [...xml.getElementsByTagName("trkpt")];
+      const rtepts = [...xml.getElementsByTagName("rtept")];
+      const srcPoints = trkpts.length ? trkpts : rtepts;
+
+      const points = srcPoints.map((pt, index) => {
+        const eleNode = pt.getElementsByTagName("ele")[0];
+        const timeNode = pt.getElementsByTagName("time")[0];
+
+        return {
+          index,
+          lat: parseFloat(pt.getAttribute("lat")),
+          lon: parseFloat(pt.getAttribute("lon")),
+          ele: eleNode ? parseFloat(eleNode.textContent) : 0,
+          time: timeNode ? parseTime(timeNode.textContent) : null
+        };
+      }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon));
+
+      if (!points.length) {
+        throw new Error(`No usable track or route points found in ${file}`);
+      }
+
+      let totalDistanceM = 0;
+      let gain = 0;
+      let loss = 0;
+
+      const enriched = points.map((p, i) => {
+        const prev = i > 0 ? points[i - 1] : null;
+
+        if (prev) {
+          totalDistanceM += haversine(prev, p);
+          const diff = p.ele - prev.ele;
+          if (diff > 0) gain += diff;
+          if (diff < 0) loss += Math.abs(diff);
+        }
+
+        return {
+          ...p,
+          eleSmooth: p.ele,
+          distanceKm: totalDistanceM / 1000
+        };
+      });
+
+      const firstTime = enriched.find(p => p.time)?.time ?? null;
+      const lastTime = [...enriched].reverse().find(p => p.time)?.time ?? null;
+      const durationSeconds = firstTime && lastTime && lastTime > firstTime
+        ? (lastTime - firstTime) / 1000
+        : null;
+
+      return {
+        file,
+        title: prettyName(file),
+        points: enriched,
+        summary: {
+          distanceKm: totalDistanceM / 1000,
+          durationSeconds,
+          gainM: gain,
+          lossM: loss
+        }
+      };
+    }
+
+    function renderWarning(messages) {
+      const el = document.getElementById("warning");
+      if (!messages.length) {
+        el.classList.remove("show");
+        el.textContent = "";
+        return;
+      }
+      el.classList.add("show");
+      el.textContent = `Skipped ${messages.length} file${messages.length === 1 ? "" : "s"}: ${messages.join(" | ")}`;
+    }
+
+    function renderTabs() {
+      const wrap = document.getElementById("tabs");
+      wrap.innerHTML = "";
+
+      state.hikes.forEach((hike, i) => {
+        const btn = document.createElement("button");
+        btn.className = `tab${i === state.activeIndex ? " active" : ""}`;
+        btn.textContent = hike.title;
+        btn.addEventListener("click", () => activateTab(i));
+        wrap.appendChild(btn);
+      });
+    }
+
+    function statCard(label, value) {
+      return `<div class="card"><div class="value">${value}</div><div class="label">${label}</div></div>`;
+    }
+
+    function renderStats(hike) {
+      const s = hike.summary;
+      document.getElementById("stats").innerHTML = [
+        statCard("Distance", formatKm(s.distanceKm)),
+        statCard("Time", formatTime(s.durationSeconds)),
+        statCard("Total elevation gain", formatMeters(s.gainM)),
+        statCard("Total elevation loss", formatMeters(s.lossM))
+      ].join("");
+
+      document.getElementById("mapTitle").textContent = hike.title;
+    }
+
+    function ensureMap() {
+      if (state.map) return;
+
+      state.map = L.map("map", { preferCanvas: true });
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap contributors"
+      }).addTo(state.map);
+
+      state.pointMarker = L.circleMarker([0, 0], {
+        radius: 7,
+        weight: 3,
+        color: "#ffe6a8",
+        fillColor: "#d25f74",
+        fillOpacity: 1
+      });
+
+      document.getElementById("refitBtn").addEventListener("click", () => fitActiveRoute());
+      document.getElementById("resetMarkerBtn").addEventListener("click", () => {
+        if (state.map.hasLayer(state.pointMarker)) {
+          state.map.removeLayer(state.pointMarker);
+        }
+      });
+    }
+
+    function drawMap(hike) {
+      ensureMap();
+
+      if (state.routeLayer) {
+        state.map.removeLayer(state.routeLayer);
+      }
+
+      const route = L.polyline(
+        hike.points.map(p => [p.lat, p.lon]),
+        {
+          color: "#4da3ff",
+          weight: 5,
+          opacity: 0.95
+        }
+      );
+
+      const start = hike.points[0];
+      const finish = hike.points[hike.points.length - 1];
+
+      const markers = [
+        L.circleMarker([start.lat, start.lon], {
+          radius: 6,
+          color: "#0d1b24",
+          weight: 2,
+          fillColor: "#dbc39b",
+          fillOpacity: 1
+        }).bindPopup("Start"),
+        L.circleMarker([finish.lat, finish.lon], {
+          radius: 6,
+          color: "#0d1b24",
+          weight: 2,
+          fillColor: "#d25f74",
+          fillOpacity: 1
+        }).bindPopup("Finish")
+      ];
+
+      state.routeLayer = L.featureGroup([route, ...markers]).addTo(state.map);
+      fitActiveRoute();
+    }
+
+    function fitActiveRoute() {
+      if (!state.routeLayer || !state.map) return;
+
+      requestAnimationFrame(() => {
+        state.map.invalidateSize();
+        state.map.fitBounds(state.routeLayer.getBounds(), { padding: [24, 24] });
+      });
+    }
+
+    function moveMarkerToPoint(point) {
+      ensureMap();
+      state.pointMarker.setLatLng([point.lat, point.lon]);
+
+      if (!state.map.hasLayer(state.pointMarker)) {
+        state.pointMarker.addTo(state.map);
+      }
+    }
+
+    function makeGradient(ctx, area, topColor, bottomColor) {
+      const g = ctx.createLinearGradient(0, area.top, 0, area.bottom);
+      g.addColorStop(0, topColor);
+      g.addColorStop(1, bottomColor);
+      return g;
+    }
+
+    function destroyCharts() {
+      if (state.elevationChart) state.elevationChart.destroy();
+      state.elevationChart = null;
+    }
+
+    function buildCharts(hike) {
+      destroyCharts();
+
+      const labels = hike.points.map(p => p.distanceKm);
+      const elevationData = hike.points.map(p => p.eleSmooth);
+
+      const sharedOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        interaction: {
+          mode: "nearest",
+          intersect: false
+        },
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            displayColors: false,
+            callbacks: {
+              title(items) {
+                const km = items[0]?.parsed?.x ?? items[0]?.label ?? 0;
+                return `${Number(km).toFixed(2)} km`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            type: "linear",
+            title: {
+              display: true,
+              text: "Distance (km)",
+              color: "#9bb6ad"
+            },
+            ticks: { color: "#9bb6ad" },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Elevation (m)",
+              color: "#9bb6ad"
+            },
+            ticks: { color: "#9bb6ad" },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          }
+        }
+      };
+
+      const syncPlugin = {
+        id: "syncHover",
+        afterEvent(chart, args) {
+          const evt = args.event;
+          if (!evt) return;
+
+          const points = chart.getElementsAtEventForMode(
+            evt,
+            "nearest",
+            { intersect: false },
+            false
+          );
+
+          if (!points.length) return;
+          moveMarkerToPoint(hike.points[points[0].index]);
+        }
+      };
+
+      state.elevationChart = new Chart(document.getElementById("elevationChart").getContext("2d"), {
+        type: "line",
+        data: {
+          datasets: [{
+            data: labels.map((x, i) => ({ x, y: elevationData[i] })),
+            borderColor: "#86d1b0",
+            borderWidth: 2.2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            tension: 0.18,
+            fill: true,
+            backgroundColor(context) {
+              const chart = context.chart;
+              const chartArea = chart.chartArea;
+              if (!chartArea) return "rgba(134, 209, 176, 0.28)";
+              return makeGradient(
+                chart.ctx,
+                chartArea,
+                "rgba(134, 209, 176, 0.5)",
+                "rgba(79, 159, 136, 0.06)"
+              );
+            }
+          }]
+        },
+        options: {
+          ...sharedOptions,
+          plugins: {
+            ...sharedOptions.plugins,
+            tooltip: {
+              ...sharedOptions.plugins.tooltip,
+              callbacks: {
+                title(items) {
+                  return `${Number(items[0]?.parsed?.x ?? 0).toFixed(2)} km`;
+                },
+                label(item) {
+                  return `Elevation: ${Math.round(item.parsed.y)} m`;
+                }
+              }
+            }
+          }
+        },
+        plugins: [syncPlugin]
+      });
+    }
+
+    function activateTab(index) {
+      state.activeIndex = index;
+      renderTabs();
+      const hike = state.hikes[index];
+      renderStats(hike);
+      drawMap(hike);
+      buildCharts(hike);
+    }
+
+    function setupPanelResize() {
+      const panel = document.getElementById("resizablePanel");
+      if (!panel) return;
+
+      if (state.resizeObserver) {
+        state.resizeObserver.disconnect();
+      }
+
+      state.resizeObserver = new ResizeObserver(() => {
+        if (state.map) {
+          state.map.invalidateSize();
+        }
+        if (state.elevationChart) {
+          state.elevationChart.resize();
+        }
+      });
+
+      state.resizeObserver.observe(panel);
+    }
+
+    async function boot() {
+      try {
+        const files = await loadManifest();
+        const results = await Promise.allSettled(files.map(loadGpx));
+
+        const good = [];
+        const bad = [];
+
+        for (let i = 0; i < results.length; i++) {
+          const r = results[i];
+          if (r.status === "fulfilled") good.push(r.value);
+          else bad.push(`${files[i]}: ${r.reason?.message || "failed to load"}`);
+        }
+
+        renderWarning(bad);
+        setupPanelResize();
+
+        if (!good.length) {
+          document.getElementById("empty").hidden = false;
+          document.getElementById("empty").textContent = bad.length
+            ? "None of the GPX files loaded. Check the warning below."
+            : "No GPX files listed in data/files.json yet.";
+          return;
+        }
+
+        state.hikes = good;
+        renderTabs();
+        activateTab(0);
+      } catch (err) {
+        document.getElementById("empty").hidden = false;
+        document.getElementById("empty").textContent = err.message;
+        console.error(err);
+      }
+    }
+
+    boot();
+  </script>
+</body>
+</html>
