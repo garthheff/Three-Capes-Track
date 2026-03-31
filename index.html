@@ -26,6 +26,7 @@
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
       --radius: 22px;
       --trail-blue: #4da3ff;
+      --photo-gold: #ffd166;
     }
 
     * { box-sizing: border-box; }
@@ -159,7 +160,7 @@
       flex-wrap: wrap;
     }
 
-    .ghost-btn {
+    .ghost-btn, .lightbox-btn {
       appearance: none;
       border: 1px solid rgba(255,255,255,0.1);
       background: rgba(255,255,255,0.04);
@@ -169,7 +170,7 @@
       cursor: pointer;
     }
 
-    .ghost-btn:hover {
+    .ghost-btn:hover, .lightbox-btn:hover {
       background: rgba(134, 209, 176, 0.08);
       border-color: rgba(134, 209, 176, 0.35);
     }
@@ -241,6 +242,17 @@
       background: #102531;
     }
 
+    .leaflet-pane,
+    .leaflet-top,
+    .leaflet-bottom,
+    .leaflet-popup-pane {
+      z-index: 400;
+    }
+
+    .leaflet-popup {
+      z-index: 1000;
+    }
+
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
       background: #0f2230;
@@ -248,7 +260,7 @@
     }
 
     .photo-popup {
-      min-width: 200px;
+      min-width: 220px;
     }
 
     .photo-popup strong {
@@ -261,11 +273,82 @@
       border-radius: 10px;
       display: block;
       margin-bottom: 8px;
+      cursor: pointer;
     }
 
     .photo-popup-meta {
       color: var(--muted);
       font-size: 0.88rem;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 8, 12, 0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 20px;
+    }
+
+    .lightbox.show {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      width: min(96vw, 1400px);
+      height: min(92vh, 900px);
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+    }
+
+    .lightbox-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .lightbox-title {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .lightbox-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lightbox-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      padding: 14px;
+      background: rgba(0,0,0,0.12);
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .lightbox-image.fill {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     @media (max-width: 980px) {
@@ -341,6 +424,21 @@
     <div id="warning" class="warning"></div>
   </main>
 
+  <div id="lightbox" class="lightbox">
+    <div class="lightbox-inner">
+      <div class="lightbox-head">
+        <div id="lightboxTitle" class="lightbox-title">Photo</div>
+        <div class="lightbox-actions">
+          <button id="lightboxFitBtn" class="lightbox-btn">Fill</button>
+          <button id="lightboxCloseBtn" class="lightbox-btn">Close</button>
+        </div>
+      </div>
+      <div class="lightbox-body">
+        <img id="lightboxImage" class="lightbox-image" alt="">
+      </div>
+    </div>
+  </div>
+
   <script>
     const EARTH_RADIUS = 6371000
 
@@ -353,7 +451,8 @@
       pointMarker: null,
       photoLayer: null,
       elevationChart: null,
-      resizeObserver: null
+      resizeObserver: null,
+      lightboxMode: "fit"
     }
 
     function prettyName(filename) {
@@ -598,6 +697,62 @@
       fitActiveRoute()
     }
 
+    function openLightbox(photo) {
+      const box = document.getElementById("lightbox")
+      const img = document.getElementById("lightboxImage")
+      const title = document.getElementById("lightboxTitle")
+
+      title.textContent = photo.caption || prettyName(photo.file)
+      img.src = photo.url || `./photos/${photo.file}`
+      img.alt = photo.caption || prettyName(photo.file)
+
+      state.lightboxMode = "fit"
+      img.classList.remove("fill")
+      document.getElementById("lightboxFitBtn").textContent = "Fill"
+
+      box.classList.add("show")
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").classList.remove("show")
+    }
+
+    function toggleLightboxFit() {
+      const img = document.getElementById("lightboxImage")
+      const btn = document.getElementById("lightboxFitBtn")
+
+      if (state.lightboxMode === "fit") {
+        state.lightboxMode = "fill"
+        img.classList.add("fill")
+        btn.textContent = "Fit"
+      } else {
+        state.lightboxMode = "fit"
+        img.classList.remove("fill")
+        btn.textContent = "Fill"
+      }
+    }
+
+    function setupLightbox() {
+      const box = document.getElementById("lightbox")
+      const closeBtn = document.getElementById("lightboxCloseBtn")
+      const fitBtn = document.getElementById("lightboxFitBtn")
+
+      closeBtn.addEventListener("click", closeLightbox)
+      fitBtn.addEventListener("click", toggleLightboxFit)
+
+      box.addEventListener("click", event => {
+        if (event.target === box) {
+          closeLightbox()
+        }
+      })
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+          closeLightbox()
+        }
+      })
+    }
+
     function drawPhotoMarkers(hike) {
       ensureMap()
 
@@ -629,15 +784,31 @@
             ? `${Math.round(photo.distance_to_track_m)} m from track`
             : ""
 
-          marker.bindPopup(`
+          const popupHtml = `
             <div class="photo-popup">
               <strong>${caption}</strong>
-              <a href="${imgUrl}" target="_blank" rel="noopener noreferrer">
-                <img src="${imgUrl}" alt="${caption}">
-              </a>
+              <img
+                src="${imgUrl}"
+                alt="${caption}"
+                data-photo-file="${escapeHtml(photo.file)}"
+              />
               <div class="photo-popup-meta">${escapeHtml(dist)}</div>
             </div>
-          `)
+          `
+
+          marker.bindPopup(popupHtml)
+
+          marker.on("popupopen", () => {
+            const popupEl = marker.getPopup().getElement()
+            if (!popupEl) return
+
+            const imgEl = popupEl.querySelector("[data-photo-file]")
+            if (!imgEl) return
+
+            imgEl.addEventListener("click", () => {
+              openLightbox(photo)
+            }, { once: true })
+          })
 
           return marker
         })
@@ -835,6 +1006,7 @@
 
         renderWarning(bad)
         setupPanelResize()
+        setupLightbox()
 
         if (!good.length) {
           document.getElementById("empty").hidden = false
