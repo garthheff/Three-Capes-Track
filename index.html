@@ -30,6 +30,7 @@
 
     * { box-sizing: border-box; }
     html, body { margin: 0; min-height: 100%; }
+
     body {
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: var(--text);
@@ -63,7 +64,7 @@
     .subtitle {
       color: var(--muted);
       margin: 0;
-      max-width: 820px;
+      max-width: 860px;
       line-height: 1.5;
       font-size: 1rem;
     }
@@ -246,6 +247,27 @@
       color: var(--text);
     }
 
+    .photo-popup {
+      min-width: 200px;
+    }
+
+    .photo-popup strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .photo-popup img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .photo-popup-meta {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
     @media (max-width: 980px) {
       .resizable-panel {
         min-height: 560px;
@@ -281,7 +303,7 @@
   <header class="hero">
     <div class="hero-inner">
       <h1>Tasmania Hike Viewer</h1>
-      <p class="subtitle">OpenStreetMap based hike viewer with tabs generated from your GPX files, a large route map, and an elevation profile linked to the map.</p>
+      <p class="subtitle">OpenStreetMap based hike viewer with tabs generated from your GPX files, a large route map, an elevation profile linked to the map, and photo markers assigned by GPS proximity.</p>
     </div>
   </header>
 
@@ -320,80 +342,102 @@
   </main>
 
   <script>
-    const EARTH_RADIUS = 6371000;
+    const EARTH_RADIUS = 6371000
 
     const state = {
       hikes: [],
+      photos: [],
       activeIndex: 0,
       map: null,
       routeLayer: null,
       pointMarker: null,
+      photoLayer: null,
       elevationChart: null,
       resizeObserver: null
-    };
+    }
 
     function prettyName(filename) {
-      const base = filename.replace(/^.*[\\/]/, "").replace(/\.gpx$/i, "");
-      return base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+      const base = filename.replace(/^.*[\\/]/, "").replace(/\.gpx$/i, "")
+      return base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim()
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;")
     }
 
     function formatKm(km) {
-      return `${km.toFixed(2)} km`;
+      return `${km.toFixed(2)} km`
     }
 
     function formatMeters(m) {
-      return `${Math.round(m)} m`;
+      return `${Math.round(m)} m`
     }
 
     function formatTime(seconds) {
-      if (!Number.isFinite(seconds) || seconds <= 0) return "—";
-      const hrs = Math.floor(seconds / 3600);
-      const mins = Math.floor((seconds % 3600) / 60);
-      const secs = Math.floor(seconds % 60);
-      return [hrs, mins, secs].map((v, i) => i === 0 ? String(v) : String(v).padStart(2, "0")).join(":");
+      if (!Number.isFinite(seconds) || seconds <= 0) return "—"
+      const hrs = Math.floor(seconds / 3600)
+      const mins = Math.floor((seconds % 3600) / 60)
+      const secs = Math.floor(seconds % 60)
+      return [hrs, mins, secs].map((v, i) => i === 0 ? String(v) : String(v).padStart(2, "0")).join(":")
     }
 
     function parseTime(value) {
-      const t = Date.parse(value || "");
-      return Number.isFinite(t) ? t : null;
+      const t = Date.parse(value || "")
+      return Number.isFinite(t) ? t : null
     }
 
     function haversine(a, b) {
-      const toRad = d => d * Math.PI / 180;
-      const lat1 = toRad(a.lat);
-      const lat2 = toRad(b.lat);
-      const dLat = toRad(b.lat - a.lat);
-      const dLon = toRad(b.lon - a.lon);
+      const toRad = d => d * Math.PI / 180
+      const lat1 = toRad(a.lat)
+      const lat2 = toRad(b.lat)
+      const dLat = toRad(b.lat - a.lat)
+      const dLon = toRad(b.lon - a.lon)
 
       const x =
         Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2
 
-      return 2 * EARTH_RADIUS * Math.asin(Math.sqrt(x));
+      return 2 * EARTH_RADIUS * Math.asin(Math.sqrt(x))
     }
 
     async function loadManifest() {
-      const res = await fetch("./data/files.json");
-      if (!res.ok) throw new Error("Could not load data/files.json");
-      const files = await res.json();
-      if (!Array.isArray(files)) throw new Error("files.json must be an array of GPX filenames");
-      return files;
+      const res = await fetch("./data/files.json")
+      if (!res.ok) throw new Error("Could not load data/files.json")
+      const files = await res.json()
+      if (!Array.isArray(files)) throw new Error("files.json must be an array of GPX filenames")
+      return files
+    }
+
+    async function loadPhotos() {
+      try {
+        const res = await fetch("./data/photos.json")
+        if (!res.ok) return []
+        const data = await res.json()
+        return Array.isArray(data) ? data : []
+      } catch {
+        return []
+      }
     }
 
     async function loadGpx(file) {
-      const res = await fetch(`./data/${encodeURIComponent(file)}`);
-      if (!res.ok) throw new Error(`Could not load ${file}`);
+      const res = await fetch(`./data/${encodeURIComponent(file)}`)
+      if (!res.ok) throw new Error(`Could not load ${file}`)
 
-      const xmlText = await res.text();
-      const xml = new DOMParser().parseFromString(xmlText, "application/xml");
+      const xmlText = await res.text()
+      const xml = new DOMParser().parseFromString(xmlText, "application/xml")
 
-      const trkpts = [...xml.getElementsByTagName("trkpt")];
-      const rtepts = [...xml.getElementsByTagName("rtept")];
-      const srcPoints = trkpts.length ? trkpts : rtepts;
+      const trkpts = [...xml.getElementsByTagName("trkpt")]
+      const rtepts = [...xml.getElementsByTagName("rtept")]
+      const srcPoints = trkpts.length ? trkpts : rtepts
 
       const points = srcPoints.map((pt, index) => {
-        const eleNode = pt.getElementsByTagName("ele")[0];
-        const timeNode = pt.getElementsByTagName("time")[0];
+        const eleNode = pt.getElementsByTagName("ele")[0]
+        const timeNode = pt.getElementsByTagName("time")[0]
 
         return {
           index,
@@ -401,39 +445,39 @@
           lon: parseFloat(pt.getAttribute("lon")),
           ele: eleNode ? parseFloat(eleNode.textContent) : 0,
           time: timeNode ? parseTime(timeNode.textContent) : null
-        };
-      }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon));
+        }
+      }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon))
 
       if (!points.length) {
-        throw new Error(`No usable track or route points found in ${file}`);
+        throw new Error(`No usable track or route points found in ${file}`)
       }
 
-      let totalDistanceM = 0;
-      let gain = 0;
-      let loss = 0;
+      let totalDistanceM = 0
+      let gain = 0
+      let loss = 0
 
       const enriched = points.map((p, i) => {
-        const prev = i > 0 ? points[i - 1] : null;
+        const prev = i > 0 ? points[i - 1] : null
 
         if (prev) {
-          totalDistanceM += haversine(prev, p);
-          const diff = p.ele - prev.ele;
-          if (diff > 0) gain += diff;
-          if (diff < 0) loss += Math.abs(diff);
+          totalDistanceM += haversine(prev, p)
+          const diff = p.ele - prev.ele
+          if (diff > 0) gain += diff
+          if (diff < 0) loss += Math.abs(diff)
         }
 
         return {
           ...p,
           eleSmooth: p.ele,
           distanceKm: totalDistanceM / 1000
-        };
-      });
+        }
+      })
 
-      const firstTime = enriched.find(p => p.time)?.time ?? null;
-      const lastTime = [...enriched].reverse().find(p => p.time)?.time ?? null;
+      const firstTime = enriched.find(p => p.time)?.time ?? null
+      const lastTime = [...enriched].reverse().find(p => p.time)?.time ?? null
       const durationSeconds = firstTime && lastTime && lastTime > firstTime
         ? (lastTime - firstTime) / 1000
-        : null;
+        : null
 
       return {
         file,
@@ -445,58 +489,58 @@
           gainM: gain,
           lossM: loss
         }
-      };
+      }
     }
 
     function renderWarning(messages) {
-      const el = document.getElementById("warning");
+      const el = document.getElementById("warning")
       if (!messages.length) {
-        el.classList.remove("show");
-        el.textContent = "";
-        return;
+        el.classList.remove("show")
+        el.textContent = ""
+        return
       }
-      el.classList.add("show");
-      el.textContent = `Skipped ${messages.length} file${messages.length === 1 ? "" : "s"}: ${messages.join(" | ")}`;
+      el.classList.add("show")
+      el.textContent = `Skipped ${messages.length} file${messages.length === 1 ? "" : "s"}: ${messages.join(" | ")}`
     }
 
     function renderTabs() {
-      const wrap = document.getElementById("tabs");
-      wrap.innerHTML = "";
+      const wrap = document.getElementById("tabs")
+      wrap.innerHTML = ""
 
       state.hikes.forEach((hike, i) => {
-        const btn = document.createElement("button");
-        btn.className = `tab${i === state.activeIndex ? " active" : ""}`;
-        btn.textContent = hike.title;
-        btn.addEventListener("click", () => activateTab(i));
-        wrap.appendChild(btn);
-      });
+        const btn = document.createElement("button")
+        btn.className = `tab${i === state.activeIndex ? " active" : ""}`
+        btn.textContent = hike.title
+        btn.addEventListener("click", () => activateTab(i))
+        wrap.appendChild(btn)
+      })
     }
 
     function statCard(label, value) {
-      return `<div class="card"><div class="value">${value}</div><div class="label">${label}</div></div>`;
+      return `<div class="card"><div class="value">${value}</div><div class="label">${label}</div></div>`
     }
 
     function renderStats(hike) {
-      const s = hike.summary;
+      const s = hike.summary
       document.getElementById("stats").innerHTML = [
         statCard("Distance", formatKm(s.distanceKm)),
         statCard("Time", formatTime(s.durationSeconds)),
         statCard("Total elevation gain", formatMeters(s.gainM)),
         statCard("Total elevation loss", formatMeters(s.lossM))
-      ].join("");
+      ].join("")
 
-      document.getElementById("mapTitle").textContent = hike.title;
+      document.getElementById("mapTitle").textContent = hike.title
     }
 
     function ensureMap() {
-      if (state.map) return;
+      if (state.map) return
 
-      state.map = L.map("map", { preferCanvas: true });
+      state.map = L.map("map", { preferCanvas: true })
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "© OpenStreetMap contributors"
-      }).addTo(state.map);
+      }).addTo(state.map)
 
       state.pointMarker = L.circleMarker([0, 0], {
         radius: 7,
@@ -504,21 +548,21 @@
         color: "#ffe6a8",
         fillColor: "#d25f74",
         fillOpacity: 1
-      });
+      })
 
-      document.getElementById("refitBtn").addEventListener("click", () => fitActiveRoute());
+      document.getElementById("refitBtn").addEventListener("click", () => fitActiveRoute())
       document.getElementById("resetMarkerBtn").addEventListener("click", () => {
         if (state.map.hasLayer(state.pointMarker)) {
-          state.map.removeLayer(state.pointMarker);
+          state.map.removeLayer(state.pointMarker)
         }
-      });
+      })
     }
 
     function drawMap(hike) {
-      ensureMap();
+      ensureMap()
 
       if (state.routeLayer) {
-        state.map.removeLayer(state.routeLayer);
+        state.map.removeLayer(state.routeLayer)
       }
 
       const route = L.polyline(
@@ -528,10 +572,10 @@
           weight: 5,
           opacity: 0.95
         }
-      );
+      )
 
-      const start = hike.points[0];
-      const finish = hike.points[hike.points.length - 1];
+      const start = hike.points[0]
+      const finish = hike.points[hike.points.length - 1]
 
       const markers = [
         L.circleMarker([start.lat, start.lon], {
@@ -548,47 +592,94 @@
           fillColor: "#d25f74",
           fillOpacity: 1
         }).bindPopup("Finish")
-      ];
+      ]
 
-      state.routeLayer = L.featureGroup([route, ...markers]).addTo(state.map);
-      fitActiveRoute();
+      state.routeLayer = L.featureGroup([route, ...markers]).addTo(state.map)
+      fitActiveRoute()
+    }
+
+    function drawPhotoMarkers(hike) {
+      ensureMap()
+
+      if (state.photoLayer) {
+        state.map.removeLayer(state.photoLayer)
+      }
+
+      const matching = state.photos.filter(photo => photo.assigned_gpx === hike.file)
+
+      if (!matching.length) {
+        state.photoLayer = null
+        return
+      }
+
+      const markers = matching
+        .filter(photo => Number.isFinite(photo.lat) && Number.isFinite(photo.lon))
+        .map(photo => {
+          const marker = L.circleMarker([photo.lat, photo.lon], {
+            radius: 7,
+            weight: 2,
+            color: "#0d1b24",
+            fillColor: "#ffd166",
+            fillOpacity: 1
+          })
+
+          const caption = escapeHtml(photo.caption || prettyName(photo.file))
+          const imgUrl = escapeHtml(photo.url || `./photos/${photo.file}`)
+          const dist = Number.isFinite(photo.distance_to_track_m)
+            ? `${Math.round(photo.distance_to_track_m)} m from track`
+            : ""
+
+          marker.bindPopup(`
+            <div class="photo-popup">
+              <strong>${caption}</strong>
+              <a href="${imgUrl}" target="_blank" rel="noopener noreferrer">
+                <img src="${imgUrl}" alt="${caption}">
+              </a>
+              <div class="photo-popup-meta">${escapeHtml(dist)}</div>
+            </div>
+          `)
+
+          return marker
+        })
+
+      state.photoLayer = L.featureGroup(markers).addTo(state.map)
     }
 
     function fitActiveRoute() {
-      if (!state.routeLayer || !state.map) return;
+      if (!state.routeLayer || !state.map) return
 
       requestAnimationFrame(() => {
-        state.map.invalidateSize();
-        state.map.fitBounds(state.routeLayer.getBounds(), { padding: [24, 24] });
-      });
+        state.map.invalidateSize()
+        state.map.fitBounds(state.routeLayer.getBounds(), { padding: [24, 24] })
+      })
     }
 
     function moveMarkerToPoint(point) {
-      ensureMap();
-      state.pointMarker.setLatLng([point.lat, point.lon]);
+      ensureMap()
+      state.pointMarker.setLatLng([point.lat, point.lon])
 
       if (!state.map.hasLayer(state.pointMarker)) {
-        state.pointMarker.addTo(state.map);
+        state.pointMarker.addTo(state.map)
       }
     }
 
     function makeGradient(ctx, area, topColor, bottomColor) {
-      const g = ctx.createLinearGradient(0, area.top, 0, area.bottom);
-      g.addColorStop(0, topColor);
-      g.addColorStop(1, bottomColor);
-      return g;
+      const g = ctx.createLinearGradient(0, area.top, 0, area.bottom)
+      g.addColorStop(0, topColor)
+      g.addColorStop(1, bottomColor)
+      return g
     }
 
     function destroyCharts() {
-      if (state.elevationChart) state.elevationChart.destroy();
-      state.elevationChart = null;
+      if (state.elevationChart) state.elevationChart.destroy()
+      state.elevationChart = null
     }
 
     function buildCharts(hike) {
-      destroyCharts();
+      destroyCharts()
 
-      const labels = hike.points.map(p => p.distanceKm);
-      const elevationData = hike.points.map(p => p.eleSmooth);
+      const labels = hike.points.map(p => p.distanceKm)
+      const elevationData = hike.points.map(p => p.eleSmooth)
 
       const sharedOptions = {
         maintainAspectRatio: false,
@@ -604,8 +695,8 @@
             displayColors: false,
             callbacks: {
               title(items) {
-                const km = items[0]?.parsed?.x ?? items[0]?.label ?? 0;
-                return `${Number(km).toFixed(2)} km`;
+                const km = items[0]?.parsed?.x ?? items[0]?.label ?? 0
+                return `${Number(km).toFixed(2)} km`
               }
             }
           }
@@ -631,25 +722,25 @@
             grid: { color: "rgba(255,255,255,0.06)" }
           }
         }
-      };
+      }
 
       const syncPlugin = {
         id: "syncHover",
         afterEvent(chart, args) {
-          const evt = args.event;
-          if (!evt) return;
+          const evt = args.event
+          if (!evt) return
 
           const points = chart.getElementsAtEventForMode(
             evt,
             "nearest",
             { intersect: false },
             false
-          );
+          )
 
-          if (!points.length) return;
-          moveMarkerToPoint(hike.points[points[0].index]);
+          if (!points.length) return
+          moveMarkerToPoint(hike.points[points[0].index])
         }
-      };
+      }
 
       state.elevationChart = new Chart(document.getElementById("elevationChart").getContext("2d"), {
         type: "line",
@@ -663,15 +754,15 @@
             tension: 0.18,
             fill: true,
             backgroundColor(context) {
-              const chart = context.chart;
-              const chartArea = chart.chartArea;
-              if (!chartArea) return "rgba(134, 209, 176, 0.28)";
+              const chart = context.chart
+              const chartArea = chart.chartArea
+              if (!chartArea) return "rgba(134, 209, 176, 0.28)"
               return makeGradient(
                 chart.ctx,
                 chartArea,
                 "rgba(134, 209, 176, 0.5)",
                 "rgba(79, 159, 136, 0.06)"
-              );
+              )
             }
           }]
         },
@@ -683,84 +774,87 @@
               ...sharedOptions.plugins.tooltip,
               callbacks: {
                 title(items) {
-                  return `${Number(items[0]?.parsed?.x ?? 0).toFixed(2)} km`;
+                  return `${Number(items[0]?.parsed?.x ?? 0).toFixed(2)} km`
                 },
                 label(item) {
-                  return `Elevation: ${Math.round(item.parsed.y)} m`;
+                  return `Elevation: ${Math.round(item.parsed.y)} m`
                 }
               }
             }
           }
         },
         plugins: [syncPlugin]
-      });
+      })
     }
 
     function activateTab(index) {
-      state.activeIndex = index;
-      renderTabs();
-      const hike = state.hikes[index];
-      renderStats(hike);
-      drawMap(hike);
-      buildCharts(hike);
+      state.activeIndex = index
+      renderTabs()
+      const hike = state.hikes[index]
+      renderStats(hike)
+      drawMap(hike)
+      drawPhotoMarkers(hike)
+      buildCharts(hike)
     }
 
     function setupPanelResize() {
-      const panel = document.getElementById("resizablePanel");
-      if (!panel) return;
+      const panel = document.getElementById("resizablePanel")
+      if (!panel) return
 
       if (state.resizeObserver) {
-        state.resizeObserver.disconnect();
+        state.resizeObserver.disconnect()
       }
 
       state.resizeObserver = new ResizeObserver(() => {
         if (state.map) {
-          state.map.invalidateSize();
+          state.map.invalidateSize()
         }
         if (state.elevationChart) {
-          state.elevationChart.resize();
+          state.elevationChart.resize()
         }
-      });
+      })
 
-      state.resizeObserver.observe(panel);
+      state.resizeObserver.observe(panel)
     }
 
     async function boot() {
       try {
-        const files = await loadManifest();
-        const results = await Promise.allSettled(files.map(loadGpx));
+        const files = await loadManifest()
+        const results = await Promise.allSettled(files.map(loadGpx))
 
-        const good = [];
-        const bad = [];
+        const good = []
+        const bad = []
 
         for (let i = 0; i < results.length; i++) {
-          const r = results[i];
-          if (r.status === "fulfilled") good.push(r.value);
-          else bad.push(`${files[i]}: ${r.reason?.message || "failed to load"}`);
+          const r = results[i]
+          if (r.status === "fulfilled") good.push(r.value)
+          else bad.push(`${files[i]}: ${r.reason?.message || "failed to load"}`)
         }
 
-        renderWarning(bad);
-        setupPanelResize();
+        state.photos = await loadPhotos()
+
+        renderWarning(bad)
+        setupPanelResize()
 
         if (!good.length) {
-          document.getElementById("empty").hidden = false;
+          document.getElementById("empty").hidden = false
           document.getElementById("empty").textContent = bad.length
             ? "None of the GPX files loaded. Check the warning below."
-            : "No GPX files listed in data/files.json yet.";
-          return;
+            : "No GPX files listed in data/files.json yet."
+          return
         }
 
-        state.hikes = good;
-        renderTabs();
-        activateTab(0);
+        state.hikes = good
+        renderTabs()
+        activateTab(0)
       } catch (err) {
-        document.getElementById("empty").hidden = false;
-        document.getElementById("empty").textContent = err.message;
-        console.error(err);
+        document.getElementById("empty").hidden = false
+        document.getElementById("empty").textContent = err.message
+        console.error(err)
       }
     }
 
-    boot();
+    boot()
   </script>
 </body>
 </html>
