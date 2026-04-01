@@ -1,233 +1,1066 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tasmania Hike Viewer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tasmania Hike Viewer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --panel-height: 980px;
+      --map-ratio: 0.72;
+      --bg: #07131d;
+      --panel: rgba(8, 24, 37, 0.88);
+      --panel-2: rgba(10, 34, 45, 0.92);
+      --line: rgba(161, 205, 196, 0.16);
+      --text: #ebf5f1;
+      --muted: #9bb6ad;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+    }
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
 
-<style>
-:root{
-  --text:#ebf5f1;
-  --muted:#9bb6ad;
-}
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(134, 209, 176, 0.14), transparent 25%),
+        radial-gradient(circle at 85% 12%, rgba(158, 214, 224, 0.12), transparent 22%),
+        linear-gradient(180deg, #0a1a26 0%, #07131d 56%, #081822 100%);
+      min-height: 100%;
+    }
 
-body{
-  margin:0;
-  font-family:system-ui;
-  background:#07131d;
-  color:var(--text);
-}
+    .hero {
+      padding: 42px 22px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background:
+        linear-gradient(180deg, rgba(4,11,17,0.12), rgba(4,11,17,0.34)),
+        radial-gradient(circle at 50% -10%, rgba(219, 195, 155, 0.18), transparent 35%);
+    }
 
-#tabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  padding:12px;
-}
+    .hero-inner, .content {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
 
-.tab{
-  padding:10px 14px;
-  border-radius:20px;
-  background:#102531;
-  border:1px solid #2a3d47;
-  cursor:pointer;
-}
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
 
-.tab.active{
-  background:#2f6f66;
-}
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      max-width: 860px;
+      line-height: 1.5;
+      font-size: 1rem;
+    }
 
-#map{
-  height:520px;
-}
+    .content {
+      padding: 20px 22px 42px;
+      display: grid;
+      gap: 18px;
+    }
 
-.photo-popup{
-  width:220px;
-}
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0;
+    }
 
-.photo-popup img{
-  width:100%;
-  border-radius:8px;
-  cursor:pointer;
-}
+    .tab {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 0.98rem;
+    }
 
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.9);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:99999;
-}
+    .tab:hover {
+      transform: translateY(-1px);
+      border-color: rgba(134, 209, 176, 0.35);
+      background: rgba(134, 209, 176, 0.08);
+    }
 
-.lightbox.show{
-  display:flex;
-}
+    .tab.active {
+      background: linear-gradient(180deg, rgba(134, 209, 176, 0.26), rgba(79, 159, 136, 0.26));
+      border-color: rgba(134, 209, 176, 0.5);
+    }
 
-.lightbox img{
-  max-width:90%;
-  max-height:90%;
-}
-</style>
-</head>
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+    }
 
-<body>
+    .card, .panel-card, .warning, .empty {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
-<div id="tabs"></div>
-<div id="map"></div>
+    .card {
+      padding: 16px 18px;
+      min-height: 100px;
+    }
 
-<div id="lightbox" class="lightbox">
-  <img id="lightboxImage">
-</div>
+    .label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
 
-<script>
+    .value {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
 
-const state={
-  hikes:[],
-  photos:[],
-  map:null,
-  routeLayer:null,
-  photoLayer:null,
-  activeIndex:0
-}
+    .panel-card {
+      padding: 16px;
+    }
 
-function prettyName(f){
-  return f.replace(".gpx","").replaceAll("_"," ")
-}
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
 
-async function loadManifest(){
-  return await (await fetch("./data/files.json")).json()
-}
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
 
-async function loadPhotos(){
-  try{
-    return await (await fetch("./data/photos.json")).json()
-  }catch{return[]}
-}
+    .map-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-async function loadGpx(file){
-  const txt=await (await fetch("./data/"+file)).text()
-  const xml=new DOMParser().parseFromString(txt,"text/xml")
+    .ghost-btn, .overlay-btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
 
-  const pts=[...xml.getElementsByTagName("trkpt")].map(p=>({
-    lat:parseFloat(p.getAttribute("lat")),
-    lon:parseFloat(p.getAttribute("lon"))
-  }))
+    .ghost-btn:hover, .overlay-btn:hover {
+      background: rgba(134, 209, 176, 0.08);
+      border-color: rgba(134, 209, 176, 0.35);
+    }
 
-  return {file,title:prettyName(file),points:pts}
-}
+    .resizable-panel {
+      resize: vertical;
+      overflow: auto;
+      min-height: 620px;
+      max-height: 1600px;
+      height: var(--panel-height);
+      display: grid;
+      grid-template-rows: minmax(360px, calc(var(--panel-height) * var(--map-ratio))) minmax(220px, 1fr);
+      gap: 16px;
+    }
 
-function renderTabs(){
-  const el=document.getElementById("tabs")
-  el.innerHTML=""
-  state.hikes.forEach((h,i)=>{
-    const b=document.createElement("div")
-    b.className="tab"+(i===state.activeIndex?" active":"")
-    b.innerText=h.title
-    b.onclick=()=>activate(i)
-    el.appendChild(b)
-  })
-}
+    .map-wrap {
+      min-height: 360px;
+    }
 
-function ensureMap(){
-  if(state.map)return
-  state.map=L.map("map")
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(state.map)
-}
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
 
-function drawMap(h){
-  ensureMap()
+    .chart-wrap {
+      min-height: 220px;
+      height: 100%;
+    }
 
-  if(state.routeLayer)state.map.removeLayer(state.routeLayer)
+    .chart-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+    }
 
-  const line=L.polyline(h.points.map(p=>[p.lat,p.lon]),{
-    color:"#4da3ff",
-    weight:5
-  })
+    #elevationChart {
+      width: 100%;
+      height: 100%;
+    }
 
-  state.routeLayer=line.addTo(state.map)
-  state.map.fitBounds(line.getBounds())
-}
+    .hint {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 10px;
+    }
 
-function openLightbox(url){
-  const box=document.getElementById("lightbox")
-  const img=document.getElementById("lightboxImage")
-  img.src=url
-  box.classList.add("show")
-}
+    .warning {
+      background: linear-gradient(180deg, rgba(210, 95, 116, 0.12), rgba(8, 24, 37, 0.88));
+      border-color: rgba(210, 95, 116, 0.35);
+      padding: 14px 16px;
+      display: none;
+      font-size: 0.95rem;
+    }
 
-document.getElementById("lightbox").onclick=()=>{
-  document.getElementById("lightbox").classList.remove("show")
-}
+    .warning.show {
+      display: block;
+    }
 
-function drawPhotoMarkers(h){
-  if(state.photoLayer)state.map.removeLayer(state.photoLayer)
+    .empty {
+      padding: 30px 20px;
+      color: var(--muted);
+    }
 
-  const photos=state.photos.filter(p=>p.assigned_gpx===h.file)
+    .leaflet-container {
+      background: #102531;
+    }
 
-  const markers=photos.map(photo=>{
-    const marker=L.circleMarker([photo.lat,photo.lon],{
-      radius:6,
-      color:"#000",
-      fillColor:"#ffd166",
-      fillOpacity:1
-    })
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #0f2230;
+      color: var(--text);
+    }
 
-    const html=`
-      <div class="photo-popup">
-        <strong>${photo.caption}</strong>
-        <img src="${photo.url}" data-img>
-      </div>
-    `
+    .photo-popup {
+      min-width: 220px;
+      width: 220px;
+    }
 
-    marker.bindPopup(html,{maxWidth:260,minWidth:220})
+    .photo-popup strong {
+      display: block;
+      margin-bottom: 8px;
+    }
 
-    marker.on("popupopen",()=>{
-      const popup=marker.getPopup()
-      const el=popup.getElement()
-      const img=el.querySelector("[data-img]")
+    .photo-preview-wrap {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      cursor: zoom-in;
+      line-height: 0;
+    }
 
-      if(!img)return
+    .photo-preview-wrap::after {
+      content: "Open larger";
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      font-size: 12px;
+      line-height: 1;
+      color: #fff;
+      background: rgba(0,0,0,0.58);
+      padding: 6px 8px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: 0.18s ease;
+      pointer-events: none;
+    }
 
-      if(img.complete){
-        popup.update()
-      }else{
-        img.addEventListener("load",()=>popup.update(),{once:true})
+    .photo-preview-wrap:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photo-popup img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      cursor: zoom-in;
+    }
+
+    .photo-popup-meta {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .image-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(4, 10, 16, 0.94);
+      z-index: 99999;
+      padding: 20px;
+    }
+
+    .image-overlay.show {
+      display: flex;
+    }
+
+    .image-overlay-inner {
+      width: min(96vw, 1600px);
+      height: min(94vh, 1100px);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .image-overlay-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .image-overlay-title {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .image-overlay-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      padding: 14px;
+      background: rgba(0,0,0,0.12);
+    }
+
+    .image-overlay-img {
+      max-width: none;
+      max-height: none;
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .resizable-panel {
+        min-height: 560px;
+        height: 78vh;
+        grid-template-rows: minmax(320px, 68%) minmax(200px, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding-left: 14px;
+        padding-right: 14px;
       }
 
-      img.onclick=()=>openLightbox(photo.url)
-    })
+      .hero-inner {
+        padding: 0 14px;
+      }
 
-    return marker
-  })
+      .tab {
+        width: 100%;
+        text-align: left;
+      }
 
-  state.photoLayer=L.featureGroup(markers).addTo(state.map)
-}
+      .resizable-panel {
+        min-height: 500px;
+        height: 74vh;
+        grid-template-rows: minmax(280px, 66%) minmax(180px, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>Tasmania Hike Viewer</h1>
+      <p class="subtitle">OpenStreetMap based hike viewer with tabs generated from your GPX files, a large route map, an elevation profile linked to the map, and photo markers assigned by GPS proximity.</p>
+    </div>
+  </header>
 
-function activate(i){
-  state.activeIndex=i
-  renderTabs()
-  const h=state.hikes[i]
-  drawMap(h)
-  drawPhotoMarkers(h)
-}
+  <main class="content">
+    <div id="tabs" class="tabs"></div>
 
-async function boot(){
-  const files=await loadManifest()
-  state.hikes=await Promise.all(files.map(loadGpx))
-  state.photos=await loadPhotos()
+    <section id="stats" class="stats"></section>
 
-  renderTabs()
-  activate(0)
-}
+    <section class="panel-card">
+      <div class="panel-head">
+        <div class="panel-title" id="mapTitle">Route map</div>
+        <div class="map-actions">
+          <button class="ghost-btn" id="refitBtn">Refit route</button>
+          <button class="ghost-btn" id="resetMarkerBtn">Clear marker</button>
+        </div>
+      </div>
 
-boot()
+      <div id="resizablePanel" class="resizable-panel">
+        <div class="map-wrap">
+          <div id="map"></div>
+        </div>
 
-</script>
+        <div class="chart-wrap">
+          <div class="panel-title" style="margin-bottom: 10px;">Elevation by distance</div>
+          <div class="chart-canvas-wrap">
+            <canvas id="elevationChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="hint">Tip: hover or tap the elevation chart to see the matching point on the map. Click a photo preview to open the larger image.</div>
+    </section>
+
+    <div id="empty" class="empty" hidden></div>
+    <div id="warning" class="warning"></div>
+  </main>
+
+  <div id="imageOverlay" class="image-overlay" aria-hidden="true">
+    <div class="image-overlay-inner">
+      <div class="image-overlay-head">
+        <div id="imageOverlayTitle" class="image-overlay-title">Photo</div>
+        <button id="imageOverlayClose" class="overlay-btn">Close</button>
+      </div>
+      <div id="imageOverlayBody" class="image-overlay-body">
+        <img id="imageOverlayImg" class="image-overlay-img" alt="">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EARTH_RADIUS = 6371000
+
+    const state = {
+      hikes: [],
+      photos: [],
+      activeIndex: 0,
+      map: null,
+      routeLayer: null,
+      pointMarker: null,
+      photoLayer: null,
+      elevationChart: null,
+      resizeObserver: null
+    }
+
+    function prettyName(filename) {
+      const base = filename.replace(/^.*[\\/]/, "").replace(/\.gpx$/i, "")
+      return base.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim()
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;")
+    }
+
+    function formatKm(km) {
+      return `${km.toFixed(2)} km`
+    }
+
+    function formatMeters(m) {
+      return `${Math.round(m)} m`
+    }
+
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds) || seconds <= 0) return "—"
+      const hrs = Math.floor(seconds / 3600)
+      const mins = Math.floor((seconds % 3600) / 60)
+      const secs = Math.floor(seconds % 60)
+      return [hrs, mins, secs].map((v, i) => i === 0 ? String(v) : String(v).padStart(2, "0")).join(":")
+    }
+
+    function parseTime(value) {
+      const t = Date.parse(value || "")
+      return Number.isFinite(t) ? t : null
+    }
+
+    function getBasePath() {
+      const parts = window.location.pathname.split("/").filter(Boolean)
+      if (window.location.hostname.endsWith("github.io") && parts.length > 0) {
+        return `/${parts[0]}`
+      }
+      return ""
+    }
+
+    function resolveAssetUrl(rawUrl) {
+      const value = rawUrl || ""
+      if (!value) return ""
+      if (value.startsWith("http://") || value.startsWith("https://")) return value
+      if (value.startsWith("/")) return value
+      const basePath = getBasePath()
+      return basePath ? `${basePath}/${value}` : value
+    }
+
+    function haversine(a, b) {
+      const toRad = d => d * Math.PI / 180
+      const lat1 = toRad(a.lat)
+      const lat2 = toRad(b.lat)
+      const dLat = toRad(b.lat - a.lat)
+      const dLon = toRad(b.lon - a.lon)
+
+      const x =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2
+
+      return 2 * EARTH_RADIUS * Math.asin(Math.sqrt(x))
+    }
+
+    async function loadManifest() {
+      const res = await fetch(resolveAssetUrl("data/files.json"))
+      if (!res.ok) throw new Error("Could not load data/files.json")
+      const files = await res.json()
+      if (!Array.isArray(files)) throw new Error("files.json must be an array of GPX filenames")
+      return files
+    }
+
+    async function loadPhotos() {
+      try {
+        const res = await fetch(resolveAssetUrl("data/photos.json"))
+        if (!res.ok) return []
+        const data = await res.json()
+        return Array.isArray(data) ? data : []
+      } catch {
+        return []
+      }
+    }
+
+    async function loadGpx(file) {
+      const res = await fetch(resolveAssetUrl(`data/${encodeURIComponent(file)}`))
+      if (!res.ok) throw new Error(`Could not load ${file}`)
+
+      const xmlText = await res.text()
+      const xml = new DOMParser().parseFromString(xmlText, "application/xml")
+
+      const trkpts = [...xml.getElementsByTagName("trkpt")]
+      const rtepts = [...xml.getElementsByTagName("rtept")]
+      const srcPoints = trkpts.length ? trkpts : rtepts
+
+      const points = srcPoints.map((pt, index) => {
+        const eleNode = pt.getElementsByTagName("ele")[0]
+        const timeNode = pt.getElementsByTagName("time")[0]
+
+        return {
+          index,
+          lat: parseFloat(pt.getAttribute("lat")),
+          lon: parseFloat(pt.getAttribute("lon")),
+          ele: eleNode ? parseFloat(eleNode.textContent) : 0,
+          time: timeNode ? parseTime(timeNode.textContent) : null
+        }
+      }).filter(p => Number.isFinite(p.lat) && Number.isFinite(p.lon))
+
+      if (!points.length) {
+        throw new Error(`No usable track or route points found in ${file}`)
+      }
+
+      let totalDistanceM = 0
+      let gain = 0
+      let loss = 0
+
+      const enriched = points.map((p, i) => {
+        const prev = i > 0 ? points[i - 1] : null
+
+        if (prev) {
+          totalDistanceM += haversine(prev, p)
+          const diff = p.ele - prev.ele
+          if (diff > 0) gain += diff
+          if (diff < 0) loss += Math.abs(diff)
+        }
+
+        return {
+          ...p,
+          eleSmooth: p.ele,
+          distanceKm: totalDistanceM / 1000
+        }
+      })
+
+      const firstTime = enriched.find(p => p.time)?.time ?? null
+      const lastTime = [...enriched].reverse().find(p => p.time)?.time ?? null
+      const durationSeconds = firstTime && lastTime && lastTime > firstTime
+        ? (lastTime - firstTime) / 1000
+        : null
+
+      return {
+        file,
+        title: prettyName(file),
+        points: enriched,
+        summary: {
+          distanceKm: totalDistanceM / 1000,
+          durationSeconds,
+          gainM: gain,
+          lossM: loss
+        }
+      }
+    }
+
+    function renderWarning(messages) {
+      const el = document.getElementById("warning")
+      if (!messages.length) {
+        el.classList.remove("show")
+        el.textContent = ""
+        return
+      }
+      el.classList.add("show")
+      el.textContent = `Skipped ${messages.length} file${messages.length === 1 ? "" : "s"}: ${messages.join(" | ")}`
+    }
+
+    function renderTabs() {
+      const wrap = document.getElementById("tabs")
+      wrap.innerHTML = ""
+
+      state.hikes.forEach((hike, i) => {
+        const btn = document.createElement("button")
+        btn.className = `tab${i === state.activeIndex ? " active" : ""}`
+        btn.textContent = hike.title
+        btn.addEventListener("click", () => activateTab(i))
+        wrap.appendChild(btn)
+      })
+    }
+
+    function statCard(label, value) {
+      return `<div class="card"><div class="value">${value}</div><div class="label">${label}</div></div>`
+    }
+
+    function renderStats(hike) {
+      const s = hike.summary
+      document.getElementById("stats").innerHTML = [
+        statCard("Distance", formatKm(s.distanceKm)),
+        statCard("Time", formatTime(s.durationSeconds)),
+        statCard("Total elevation gain", formatMeters(s.gainM)),
+        statCard("Total elevation loss", formatMeters(s.lossM))
+      ].join("")
+
+      document.getElementById("mapTitle").textContent = hike.title
+    }
+
+    function ensureMap() {
+      if (state.map) return
+
+      state.map = L.map("map", { preferCanvas: true })
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap contributors"
+      }).addTo(state.map)
+
+      state.pointMarker = L.circleMarker([0, 0], {
+        radius: 7,
+        weight: 3,
+        color: "#ffe6a8",
+        fillColor: "#d25f74",
+        fillOpacity: 1
+      })
+
+      document.getElementById("refitBtn").addEventListener("click", () => fitActiveRoute())
+      document.getElementById("resetMarkerBtn").addEventListener("click", () => {
+        if (state.map.hasLayer(state.pointMarker)) {
+          state.map.removeLayer(state.pointMarker)
+        }
+      })
+    }
+
+    function drawMap(hike) {
+      ensureMap()
+
+      if (state.routeLayer) {
+        state.map.removeLayer(state.routeLayer)
+      }
+
+      const route = L.polyline(
+        hike.points.map(p => [p.lat, p.lon]),
+        {
+          color: "#4da3ff",
+          weight: 5,
+          opacity: 0.95
+        }
+      )
+
+      const start = hike.points[0]
+      const finish = hike.points[hike.points.length - 1]
+
+      const markers = [
+        L.circleMarker([start.lat, start.lon], {
+          radius: 6,
+          color: "#0d1b24",
+          weight: 2,
+          fillColor: "#dbc39b",
+          fillOpacity: 1
+        }).bindPopup("Start"),
+        L.circleMarker([finish.lat, finish.lon], {
+          radius: 6,
+          color: "#0d1b24",
+          weight: 2,
+          fillColor: "#d25f74",
+          fillOpacity: 1
+        }).bindPopup("Finish")
+      ]
+
+      state.routeLayer = L.featureGroup([route, ...markers]).addTo(state.map)
+      fitActiveRoute()
+    }
+
+    function openImageOverlay(url, title) {
+      const overlay = document.getElementById("imageOverlay")
+      const img = document.getElementById("imageOverlayImg")
+      const titleEl = document.getElementById("imageOverlayTitle")
+      img.src = resolveAssetUrl(url)
+      img.alt = title || "Photo"
+      titleEl.textContent = title || "Photo"
+      overlay.classList.add("show")
+      overlay.setAttribute("aria-hidden", "false")
+    }
+
+    function closeImageOverlay() {
+      const overlay = document.getElementById("imageOverlay")
+      overlay.classList.remove("show")
+      overlay.setAttribute("aria-hidden", "true")
+    }
+
+    function setupImageOverlay() {
+      const overlay = document.getElementById("imageOverlay")
+      const inner = overlay.querySelector(".image-overlay-inner")
+      const body = document.getElementById("imageOverlayBody")
+      const closeBtn = document.getElementById("imageOverlayClose")
+
+      closeBtn.addEventListener("click", closeImageOverlay)
+
+      overlay.addEventListener("click", event => {
+        if (event.target === overlay || event.target === body) {
+          closeImageOverlay()
+        }
+      })
+
+      inner.addEventListener("click", event => {
+        event.stopPropagation()
+      })
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+          closeImageOverlay()
+        }
+      })
+
+      document.addEventListener("click", event => {
+        const preview = event.target.closest(".photo-preview-wrap")
+        if (!preview) return
+
+        event.preventDefault()
+        event.stopPropagation()
+
+        const fullUrl = preview.getAttribute("data-full-url")
+        const title = preview.getAttribute("data-title") || "Photo"
+
+        if (fullUrl) {
+          openImageOverlay(fullUrl, title)
+        }
+      })
+    }
+
+    function drawPhotoMarkers(hike) {
+      ensureMap()
+
+      if (state.photoLayer) {
+        state.map.removeLayer(state.photoLayer)
+      }
+
+      const matching = state.photos.filter(photo => photo.assigned_gpx === hike.file)
+
+      if (!matching.length) {
+        state.photoLayer = null
+        return
+      }
+
+      const markers = matching
+        .filter(photo => Number.isFinite(photo.lat) && Number.isFinite(photo.lon))
+        .map(photo => {
+          const marker = L.circleMarker([photo.lat, photo.lon], {
+            radius: 7,
+            weight: 2,
+            color: "#0d1b24",
+            fillColor: "#ffd166",
+            fillOpacity: 1
+          })
+
+          const title = photo.caption || prettyName(photo.file)
+          const caption = escapeHtml(title)
+          const imgUrl = resolveAssetUrl(photo.url || `photos/${photo.file}`)
+          const safeImgUrl = escapeHtml(imgUrl)
+          const dist = Number.isFinite(photo.distance_to_track_m)
+            ? `${Math.round(photo.distance_to_track_m)} m from track`
+            : ""
+
+          const popupHtml = `
+            <div class="photo-popup">
+              <strong>${caption}</strong>
+              <div
+                class="photo-preview-wrap"
+                data-full-url="${safeImgUrl}"
+                data-title="${escapeHtml(title)}"
+                title="Open larger image"
+              >
+                <img
+                  src="${safeImgUrl}"
+                  alt="${caption}"
+                  data-photo-file="${escapeHtml(photo.file)}"
+                />
+              </div>
+              <div class="photo-popup-meta">${escapeHtml(dist)}</div>
+            </div>
+          `
+
+          marker.bindPopup(popupHtml, {
+            maxWidth: 260,
+            minWidth: 220
+          })
+
+          marker.on("popupopen", () => {
+            const popup = marker.getPopup()
+            const popupEl = popup.getElement()
+            if (!popupEl) return
+
+            const imgEl = popupEl.querySelector("[data-photo-file]")
+            if (!imgEl) return
+
+            const refreshPopup = () => popup.update()
+
+            if (imgEl.complete) {
+              refreshPopup()
+            } else {
+              imgEl.addEventListener("load", refreshPopup, { once: true })
+            }
+          })
+
+          return marker
+        })
+
+      state.photoLayer = L.featureGroup(markers).addTo(state.map)
+    }
+
+    function fitActiveRoute() {
+      if (!state.routeLayer || !state.map) return
+
+      requestAnimationFrame(() => {
+        state.map.invalidateSize()
+        state.map.fitBounds(state.routeLayer.getBounds(), { padding: [24, 24] })
+      })
+    }
+
+    function moveMarkerToPoint(point) {
+      ensureMap()
+      state.pointMarker.setLatLng([point.lat, point.lon])
+
+      if (!state.map.hasLayer(state.pointMarker)) {
+        state.pointMarker.addTo(state.map)
+      }
+    }
+
+    function makeGradient(ctx, area, topColor, bottomColor) {
+      const g = ctx.createLinearGradient(0, area.top, 0, area.bottom)
+      g.addColorStop(0, topColor)
+      g.addColorStop(1, bottomColor)
+      return g
+    }
+
+    function destroyCharts() {
+      if (state.elevationChart) state.elevationChart.destroy()
+      state.elevationChart = null
+    }
+
+    function buildCharts(hike) {
+      destroyCharts()
+
+      const labels = hike.points.map(p => p.distanceKm)
+      const elevationData = hike.points.map(p => p.eleSmooth)
+
+      const sharedOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        interaction: {
+          mode: "nearest",
+          intersect: false
+        },
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            displayColors: false,
+            callbacks: {
+              title(items) {
+                const km = items[0]?.parsed?.x ?? items[0]?.label ?? 0
+                return `${Number(km).toFixed(2)} km`
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            type: "linear",
+            title: {
+              display: true,
+              text: "Distance (km)",
+              color: "#9bb6ad"
+            },
+            ticks: { color: "#9bb6ad" },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Elevation (m)",
+              color: "#9bb6ad"
+            },
+            ticks: { color: "#9bb6ad" },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          }
+        }
+      }
+
+      const syncPlugin = {
+        id: "syncHover",
+        afterEvent(chart, args) {
+          const evt = args.event
+          if (!evt) return
+
+          const points = chart.getElementsAtEventForMode(
+            evt,
+            "nearest",
+            { intersect: false },
+            false
+          )
+
+          if (!points.length) return
+          moveMarkerToPoint(hike.points[points[0].index])
+        }
+      }
+
+      state.elevationChart = new Chart(document.getElementById("elevationChart").getContext("2d"), {
+        type: "line",
+        data: {
+          datasets: [{
+            data: labels.map((x, i) => ({ x, y: elevationData[i] })),
+            borderColor: "#86d1b0",
+            borderWidth: 2.2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            tension: 0.18,
+            fill: true,
+            backgroundColor(context) {
+              const chart = context.chart
+              const chartArea = chart.chartArea
+              if (!chartArea) return "rgba(134, 209, 176, 0.28)"
+              return makeGradient(
+                chart.ctx,
+                chartArea,
+                "rgba(134, 209, 176, 0.5)",
+                "rgba(79, 159, 136, 0.06)"
+              )
+            }
+          }]
+        },
+        options: {
+          ...sharedOptions,
+          plugins: {
+            ...sharedOptions.plugins,
+            tooltip: {
+              ...sharedOptions.plugins.tooltip,
+              callbacks: {
+                title(items) {
+                  return `${Number(items[0]?.parsed?.x ?? 0).toFixed(2)} km`
+                },
+                label(item) {
+                  return `Elevation: ${Math.round(item.parsed.y)} m`
+                }
+              }
+            }
+          }
+        },
+        plugins: [syncPlugin]
+      })
+    }
+
+    function activateTab(index) {
+      state.activeIndex = index
+      renderTabs()
+      const hike = state.hikes[index]
+      renderStats(hike)
+      drawMap(hike)
+      drawPhotoMarkers(hike)
+      buildCharts(hike)
+    }
+
+    function setupPanelResize() {
+      const panel = document.getElementById("resizablePanel")
+      if (!panel) return
+
+      if (state.resizeObserver) {
+        state.resizeObserver.disconnect()
+      }
+
+      state.resizeObserver = new ResizeObserver(() => {
+        if (state.map) {
+          state.map.invalidateSize()
+        }
+        if (state.elevationChart) {
+          state.elevationChart.resize()
+        }
+      })
+
+      state.resizeObserver.observe(panel)
+    }
+
+    async function boot() {
+      try {
+        setupImageOverlay()
+
+        const files = await loadManifest()
+        const results = await Promise.allSettled(files.map(loadGpx))
+
+        const good = []
+        const bad = []
+
+        for (let i = 0; i < results.length; i++) {
+          const r = results[i]
+          if (r.status === "fulfilled") good.push(r.value)
+          else bad.push(`${files[i]}: ${r.reason?.message || "failed to load"}`)
+        }
+
+        state.photos = await loadPhotos()
+
+        renderWarning(bad)
+        setupPanelResize()
+
+        if (!good.length) {
+          document.getElementById("empty").hidden = false
+          document.getElementById("empty").textContent = bad.length
+            ? "None of the GPX files loaded. Check the warning below."
+            : "No GPX files listed in data/files.json yet."
+          return
+        }
+
+        state.hikes = good
+        renderTabs()
+        activateTab(0)
+      } catch (err) {
+        document.getElementById("empty").hidden = false
+        document.getElementById("empty").textContent = err.message
+        console.error(err)
+      }
+    }
+
+    boot()
+  </script>
 </body>
 </html>
