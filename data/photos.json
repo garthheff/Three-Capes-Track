@@ -2,28 +2,34 @@
   {
     "file": "IMG_2687.JPEG",
     "caption": "IMG 2687",
-    "lat": -43.138819444444444,
-    "lon": 147.88594166666667,
+    "lat": -43.14111073,
+    "lon": 147.88948875,
+    "original_lat": -43.138819444444444,
+    "original_lon": 147.88594166666667,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 383.5,
+    "distance_to_track_m": 384.4,
     "url": "photos/IMG_2687.JPEG"
   },
   {
     "file": "IMG_2688.JPEG",
     "caption": "IMG 2688",
-    "lat": -43.13870277777778,
-    "lon": 147.89381388888887,
+    "lat": -43.13896152,
+    "lon": 147.89383872,
+    "original_lat": -43.13870277777778,
+    "original_lon": 147.89381388888887,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 24.8,
+    "distance_to_track_m": 28.8,
     "url": "photos/IMG_2688.JPEG"
   },
   {
     "file": "IMG_2689.JPEG",
     "caption": "IMG 2689",
-    "lat": -43.13874722222222,
-    "lon": 147.89367777777778,
+    "lat": -43.1389664,
+    "lon": 147.89381002,
+    "original_lat": -43.13874722222222,
+    "original_lon": 147.89367777777778,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 24.4,
+    "distance_to_track_m": 26.6,
     "url": "photos/IMG_2689.JPEG"
   },
   {
@@ -31,8 +37,10 @@
     "caption": "IMG 2698",
     "lat": -43.141308333333335,
     "lon": 147.88955555555555,
+    "original_lat": -43.141308333333335,
+    "original_lon": 147.88955555555555,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 10.6,
+    "distance_to_track_m": 11.0,
     "url": "photos/IMG_2698.JPEG"
   },
   {
@@ -40,6 +48,8 @@
     "caption": "IMG 2700",
     "lat": -43.14598055555555,
     "lon": 147.89346388888887,
+    "original_lat": -43.14598055555555,
+    "original_lon": 147.89346388888887,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
     "distance_to_track_m": 5.7,
     "url": "photos/IMG_2700.JPEG"
@@ -49,8 +59,10 @@
     "caption": "IMG 2703",
     "lat": -43.14816388888889,
     "lon": 147.8945611111111,
+    "original_lat": -43.14816388888889,
+    "original_lon": 147.8945611111111,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 13.3,
+    "distance_to_track_m": 14.3,
     "url": "photos/IMG_2703.JPEG"
   },
   {
@@ -58,8 +70,10 @@
     "caption": "IMG 2704",
     "lat": -43.15596111111111,
     "lon": 147.89550833333334,
+    "original_lat": -43.15596111111111,
+    "original_lon": 147.89550833333334,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 1.8,
+    "distance_to_track_m": 1.7,
     "url": "photos/IMG_2704.JPEG"
   },
   {
@@ -67,8 +81,10 @@
     "caption": "IMG 2708",
     "lat": -43.15633333333333,
     "lon": 147.89575277777777,
+    "original_lat": -43.15633333333333,
+    "original_lon": 147.89575277777777,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 9.4,
+    "distance_to_track_m": 11.4,
     "url": "photos/IMG_2708.JPEG"
   },
   {
@@ -76,8 +92,10 @@
     "caption": "IMG 2713",
     "lat": -43.167319444444445,
     "lon": 147.89933888888888,
+    "original_lat": -43.167319444444445,
+    "original_lon": 147.89933888888888,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 3.8,
+    "distance_to_track_m": 3.3,
     "url": "photos/IMG_2713.JPEG"
   },
   {
@@ -85,8 +103,10 @@
     "caption": "IMG 2714",
     "lat": -43.16750277777778,
     "lon": 147.89923055555556,
+    "original_lat": -43.16750277777778,
+    "original_lon": 147.89923055555556,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 0.8,
+    "distance_to_track_m": 0.4,
     "url": "photos/IMG_2714.JPEG"
   },
   {
@@ -94,8 +114,10 @@
     "caption": "IMG 2722",
     "lat": -43.16841111111111,
     "lon": 147.89930833333332,
+    "original_lat": -43.16841111111111,
+    "original_lon": 147.89930833333332,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 4.8,
+    "distance_to_track_m": 5.1,
     "url": "photos/IMG_2722.JPEG"
   },
   {
@@ -103,8 +125,10 @@
     "caption": "IMG 2728",
     "lat": -43.16820277777777,
     "lon": 147.89955277777776,
+    "original_lat": -43.16820277777777,
+    "original_lon": 147.89955277777776,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 1.6,
+    "distance_to_track_m": 2.1,
     "url": "photos/IMG_2728.JPEG"
   },
   {
@@ -112,8 +136,10 @@
     "caption": "IMG 2734",
     "lat": -43.16824444444444,
     "lon": 147.8995361111111,
+    "original_lat": -43.16824444444444,
+    "original_lon": 147.8995361111111,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 0.8,
+    "distance_to_track_m": 1.1,
     "url": "photos/IMG_2734.JPEG"
   },
   {
@@ -121,8 +147,10 @@
     "caption": "IMG 2745",
     "lat": -43.168299999999995,
     "lon": 147.9000861111111,
+    "original_lat": -43.168299999999995,
+    "original_lon": 147.9000861111111,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 7.7,
+    "distance_to_track_m": 19.7,
     "url": "photos/IMG_2745.JPEG"
   },
   {
@@ -130,8 +158,10 @@
     "caption": "IMG 2747",
     "lat": -43.1684,
     "lon": 147.89936944444443,
+    "original_lat": -43.1684,
+    "original_lon": 147.89936944444443,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 6.2,
+    "distance_to_track_m": 6.0,
     "url": "photos/IMG_2747.JPEG"
   },
   {
@@ -139,8 +169,10 @@
     "caption": "IMG 2752",
     "lat": -43.168274999999994,
     "lon": 147.89926111111112,
+    "original_lat": -43.168274999999994,
+    "original_lon": 147.89926111111112,
     "assigned_gpx": "Day_1_Denmans_Cove_to_Surveyors_Hut.gpx",
-    "distance_to_track_m": 13.2,
+    "distance_to_track_m": 12.7,
     "url": "photos/IMG_2752.JPEG"
   },
   {
@@ -148,8 +180,10 @@
     "caption": "IMG 2755",
     "lat": -43.16938333333333,
     "lon": 147.89852777777776,
+    "original_lat": -43.16938333333333,
+    "original_lon": 147.89852777777776,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 3.0,
+    "distance_to_track_m": 3.2,
     "url": "photos/IMG_2755.JPEG"
   },
   {
@@ -157,8 +191,10 @@
     "caption": "IMG 2759",
     "lat": -43.17142222222222,
     "lon": 147.89805555555554,
+    "original_lat": -43.17142222222222,
+    "original_lon": 147.89805555555554,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 4.9,
+    "distance_to_track_m": 5.4,
     "url": "photos/IMG_2759.JPEG"
   },
   {
@@ -166,6 +202,8 @@
     "caption": "IMG 2764",
     "lat": -43.17234722222222,
     "lon": 147.90103055555556,
+    "original_lat": -43.17234722222222,
+    "original_lon": 147.90103055555556,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
     "distance_to_track_m": 2.3,
     "url": "photos/IMG_2764.JPEG"
@@ -175,8 +213,10 @@
     "caption": "IMG 2766",
     "lat": -43.17238611111111,
     "lon": 147.9013361111111,
+    "original_lat": -43.17238611111111,
+    "original_lon": 147.9013361111111,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 0.6,
+    "distance_to_track_m": 1.2,
     "url": "photos/IMG_2766.JPEG"
   },
   {
@@ -184,8 +224,10 @@
     "caption": "IMG 2770",
     "lat": -43.174213888888886,
     "lon": 147.90165833333333,
+    "original_lat": -43.174213888888886,
+    "original_lon": 147.90165833333333,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 4.3,
+    "distance_to_track_m": 4.4,
     "url": "photos/IMG_2770.JPEG"
   },
   {
@@ -193,8 +235,10 @@
     "caption": "IMG 2771",
     "lat": -43.17424444444444,
     "lon": 147.90168888888888,
+    "original_lat": -43.17424444444444,
+    "original_lon": 147.90168888888888,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 6.7,
+    "distance_to_track_m": 6.5,
     "url": "photos/IMG_2771.JPEG"
   },
   {
@@ -202,6 +246,8 @@
     "caption": "IMG 2782",
     "lat": -43.177277777777775,
     "lon": 147.90718055555556,
+    "original_lat": -43.177277777777775,
+    "original_lon": 147.90718055555556,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
     "distance_to_track_m": 4.0,
     "url": "photos/IMG_2782.JPEG"
@@ -211,8 +257,10 @@
     "caption": "IMG 2792",
     "lat": -43.179716666666664,
     "lon": 147.90571666666668,
+    "original_lat": -43.179716666666664,
+    "original_lon": 147.90571666666668,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 2.3,
+    "distance_to_track_m": 2.1,
     "url": "photos/IMG_2792.JPEG"
   },
   {
@@ -220,8 +268,10 @@
     "caption": "IMG 2795",
     "lat": -43.18033888888888,
     "lon": 147.90510555555556,
+    "original_lat": -43.18033888888888,
+    "original_lon": 147.90510555555556,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 3.8,
+    "distance_to_track_m": 4.6,
     "url": "photos/IMG_2795.JPEG"
   },
   {
@@ -229,8 +279,10 @@
     "caption": "IMG 2799",
     "lat": -43.181463888888885,
     "lon": 147.903,
+    "original_lat": -43.181463888888885,
+    "original_lon": 147.903,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 0.5,
+    "distance_to_track_m": 0.2,
     "url": "photos/IMG_2799.JPEG"
   },
   {
@@ -238,8 +290,10 @@
     "caption": "IMG 2803",
     "lat": -43.181675,
     "lon": 147.90089444444445,
+    "original_lat": -43.181675,
+    "original_lon": 147.90089444444445,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 3.9,
+    "distance_to_track_m": 4.1,
     "url": "photos/IMG_2803.JPEG"
   },
   {
@@ -247,6 +301,8 @@
     "caption": "IMG 2804",
     "lat": -43.18175,
     "lon": 147.90089444444445,
+    "original_lat": -43.18175,
+    "original_lon": 147.90089444444445,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
     "distance_to_track_m": 4.1,
     "url": "photos/IMG_2804.JPEG"
@@ -254,10 +310,12 @@
   {
     "file": "IMG_2807.JPEG",
     "caption": "IMG 2807",
-    "lat": -43.18211111111111,
-    "lon": 147.88346944444444,
+    "lat": -43.18158341,
+    "lon": 147.9007573,
+    "original_lat": -43.18211111111111,
+    "original_lon": 147.88346944444444,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 1402.5,
+    "distance_to_track_m": 1403.0,
     "url": "photos/IMG_2807.JPEG"
   },
   {
@@ -265,8 +323,10 @@
     "caption": "IMG 2815",
     "lat": -43.18388611111111,
     "lon": 147.90336666666667,
+    "original_lat": -43.18388611111111,
+    "original_lon": 147.90336666666667,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 1.7,
+    "distance_to_track_m": 2.3,
     "url": "photos/IMG_2815.JPEG"
   },
   {
@@ -274,8 +334,10 @@
     "caption": "IMG 2824",
     "lat": -43.18606111111111,
     "lon": 147.9049388888889,
+    "original_lat": -43.18606111111111,
+    "original_lon": 147.9049388888889,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 0.2,
+    "distance_to_track_m": 0.4,
     "url": "photos/IMG_2824.JPEG"
   },
   {
@@ -283,8 +345,10 @@
     "caption": "IMG 2827",
     "lat": -43.18611111111111,
     "lon": 147.9049388888889,
+    "original_lat": -43.18611111111111,
+    "original_lon": 147.9049388888889,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 2.3,
+    "distance_to_track_m": 2.5,
     "url": "photos/IMG_2827.JPEG"
   },
   {
@@ -292,8 +356,10 @@
     "caption": "IMG 2840",
     "lat": -43.186,
     "lon": 147.90599166666667,
+    "original_lat": -43.186,
+    "original_lon": 147.90599166666667,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 1.1,
+    "distance_to_track_m": 0.7,
     "url": "photos/IMG_2840.JPEG"
   },
   {
@@ -301,8 +367,10 @@
     "caption": "IMG 2841",
     "lat": -43.18595833333333,
     "lon": 147.90655555555557,
+    "original_lat": -43.18595833333333,
+    "original_lon": 147.90655555555557,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 1.8,
+    "distance_to_track_m": 1.9,
     "url": "photos/IMG_2841.JPEG"
   },
   {
@@ -310,8 +378,10 @@
     "caption": "IMG 2856",
     "lat": -43.18658055555555,
     "lon": 147.91899166666667,
+    "original_lat": -43.18658055555555,
+    "original_lon": 147.91899166666667,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 2.8,
+    "distance_to_track_m": 3.0,
     "url": "photos/IMG_2856.JPEG"
   },
   {
@@ -319,6 +389,8 @@
     "caption": "IMG 2857",
     "lat": -43.18646666666666,
     "lon": 147.9205333333333,
+    "original_lat": -43.18646666666666,
+    "original_lon": 147.9205333333333,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
     "distance_to_track_m": 0.8,
     "url": "photos/IMG_2857.JPEG"
@@ -328,8 +400,10 @@
     "caption": "IMG 2859",
     "lat": -43.18698611111111,
     "lon": 147.92045555555555,
+    "original_lat": -43.18698611111111,
+    "original_lon": 147.92045555555555,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 6.4,
+    "distance_to_track_m": 6.5,
     "url": "photos/IMG_2859.JPEG"
   },
   {
@@ -337,8 +411,10 @@
     "caption": "IMG 2866",
     "lat": -43.188961111111105,
     "lon": 147.92146388888887,
+    "original_lat": -43.188961111111105,
+    "original_lon": 147.92146388888887,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 0.7,
+    "distance_to_track_m": 1.2,
     "url": "photos/IMG_2866.JPEG"
   },
   {
@@ -346,8 +422,10 @@
     "caption": "IMG 2869",
     "lat": -43.19034166666666,
     "lon": 147.92723055555555,
+    "original_lat": -43.19034166666666,
+    "original_lon": 147.92723055555555,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 2.0,
+    "distance_to_track_m": 2.1,
     "url": "photos/IMG_2869.JPEG"
   },
   {
@@ -355,6 +433,8 @@
     "caption": "IMG 2875",
     "lat": -43.19161111111111,
     "lon": 147.93725555555557,
+    "original_lat": -43.19161111111111,
+    "original_lon": 147.93725555555557,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
     "distance_to_track_m": 2.8,
     "url": "photos/IMG_2875.JPEG"
@@ -364,6 +444,8 @@
     "caption": "IMG 2880",
     "lat": -43.189433333333334,
     "lon": 147.94056666666668,
+    "original_lat": -43.189433333333334,
+    "original_lon": 147.94056666666668,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
     "distance_to_track_m": 0.8,
     "url": "photos/IMG_2880.JPEG"
@@ -373,8 +455,10 @@
     "caption": "IMG 2892",
     "lat": -43.18776666666666,
     "lon": 147.9531861111111,
+    "original_lat": -43.18776666666666,
+    "original_lon": 147.9531861111111,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 6.5,
+    "distance_to_track_m": 6.8,
     "url": "photos/IMG_2892.JPEG"
   },
   {
@@ -382,8 +466,10 @@
     "caption": "IMG 2908",
     "lat": -43.19909722222222,
     "lon": 147.96508888888889,
+    "original_lat": -43.19909722222222,
+    "original_lon": 147.96508888888889,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 1.4,
+    "distance_to_track_m": 1.3,
     "url": "photos/IMG_2908.JPEG"
   },
   {
@@ -391,8 +477,10 @@
     "caption": "IMG 2932",
     "lat": -43.19940277777778,
     "lon": 147.96518055555555,
+    "original_lat": -43.19940277777778,
+    "original_lon": 147.96518055555555,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 4.5,
+    "distance_to_track_m": 6.4,
     "url": "photos/IMG_2932.JPEG"
   },
   {
@@ -400,8 +488,10 @@
     "caption": "IMG 2940",
     "lat": -43.200272222222225,
     "lon": 147.96577499999998,
+    "original_lat": -43.200272222222225,
+    "original_lon": 147.96577499999998,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 2.8,
+    "distance_to_track_m": 3.1,
     "url": "photos/IMG_2940.JPEG"
   },
   {
@@ -409,8 +499,10 @@
     "caption": "IMG 2952",
     "lat": -43.21006666666667,
     "lon": 147.96673611111112,
+    "original_lat": -43.21006666666667,
+    "original_lon": 147.96673611111112,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 1.2,
+    "distance_to_track_m": 1.3,
     "url": "photos/IMG_2952.JPEG"
   },
   {
@@ -418,8 +510,10 @@
     "caption": "IMG 2953",
     "lat": -43.21000277777778,
     "lon": 147.96673611111112,
+    "original_lat": -43.21000277777778,
+    "original_lon": 147.96673611111112,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 4.8,
+    "distance_to_track_m": 5.0,
     "url": "photos/IMG_2953.JPEG"
   },
   {
@@ -427,8 +521,10 @@
     "caption": "IMG 2959",
     "lat": -43.212558333333334,
     "lon": 147.9738,
+    "original_lat": -43.212558333333334,
+    "original_lon": 147.9738,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 10.1,
+    "distance_to_track_m": 10.3,
     "url": "photos/IMG_2959.JPEG"
   },
   {
@@ -436,8 +532,10 @@
     "caption": "IMG 2960",
     "lat": -43.21202777777778,
     "lon": 147.97598333333335,
+    "original_lat": -43.21202777777778,
+    "original_lon": 147.97598333333335,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.2,
+    "distance_to_track_m": 0.7,
     "url": "photos/IMG_2960.JPEG"
   },
   {
@@ -445,8 +543,10 @@
     "caption": "IMG 2968",
     "lat": -43.212719444444446,
     "lon": 147.97874444444446,
+    "original_lat": -43.212719444444446,
+    "original_lon": 147.97874444444446,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 2.2,
+    "distance_to_track_m": 2.4,
     "url": "photos/IMG_2968.JPEG"
   },
   {
@@ -454,8 +554,10 @@
     "caption": "IMG 2970",
     "lat": -43.2136,
     "lon": 147.97955277777777,
+    "original_lat": -43.2136,
+    "original_lon": 147.97955277777777,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.6,
+    "distance_to_track_m": 0.8,
     "url": "photos/IMG_2970.JPEG"
   },
   {
@@ -463,6 +565,8 @@
     "caption": "IMG 2981",
     "lat": -43.215183333333336,
     "lon": 147.98332222222223,
+    "original_lat": -43.215183333333336,
+    "original_lon": 147.98332222222223,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
     "distance_to_track_m": 4.7,
     "url": "photos/IMG_2981.JPEG"
@@ -472,8 +576,10 @@
     "caption": "IMG 2985",
     "lat": -43.21523611111111,
     "lon": 147.98323055555556,
+    "original_lat": -43.21523611111111,
+    "original_lon": 147.98323055555556,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.5,
+    "distance_to_track_m": 0.1,
     "url": "photos/IMG_2985.JPEG"
   },
   {
@@ -481,8 +587,10 @@
     "caption": "IMG 2990",
     "lat": -43.21676388888889,
     "lon": 147.98184166666667,
+    "original_lat": -43.21676388888889,
+    "original_lon": 147.98184166666667,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 1.5,
+    "distance_to_track_m": 1.9,
     "url": "photos/IMG_2990.JPEG"
   },
   {
@@ -490,8 +598,10 @@
     "caption": "IMG 2995",
     "lat": -43.218338888888894,
     "lon": 147.9808972222222,
+    "original_lat": -43.218338888888894,
+    "original_lon": 147.9808972222222,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 3.2,
+    "distance_to_track_m": 3.4,
     "url": "photos/IMG_2995.JPEG"
   },
   {
@@ -499,8 +609,10 @@
     "caption": "IMG 3005",
     "lat": -43.22086388888889,
     "lon": 147.98254444444444,
+    "original_lat": -43.22086388888889,
+    "original_lon": 147.98254444444444,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 3.6,
+    "distance_to_track_m": 3.2,
     "url": "photos/IMG_3005.JPEG"
   },
   {
@@ -508,8 +620,10 @@
     "caption": "IMG 3012",
     "lat": -43.22054722222222,
     "lon": 147.98431388888886,
+    "original_lat": -43.22054722222222,
+    "original_lon": 147.98431388888886,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 2.5,
+    "distance_to_track_m": 1.8,
     "url": "photos/IMG_3012.JPEG"
   },
   {
@@ -517,8 +631,10 @@
     "caption": "IMG 3022",
     "lat": -43.22092777777778,
     "lon": 147.99186666666665,
+    "original_lat": -43.22092777777778,
+    "original_lon": 147.99186666666665,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 8.5,
+    "distance_to_track_m": 9.1,
     "url": "photos/IMG_3022.JPEG"
   },
   {
@@ -526,8 +642,10 @@
     "caption": "IMG 3026",
     "lat": -43.22067222222223,
     "lon": 147.99354444444444,
+    "original_lat": -43.22067222222223,
+    "original_lon": 147.99354444444444,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.1,
+    "distance_to_track_m": 0.2,
     "url": "photos/IMG_3026.JPEG"
   },
   {
@@ -535,8 +653,10 @@
     "caption": "IMG 3036",
     "lat": -43.224811111111116,
     "lon": 148.00154166666667,
+    "original_lat": -43.224811111111116,
+    "original_lon": 148.00154166666667,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 13.1,
+    "distance_to_track_m": 13.7,
     "url": "photos/IMG_3036.JPEG"
   },
   {
@@ -544,8 +664,10 @@
     "caption": "IMG 3038",
     "lat": -43.22506388888889,
     "lon": 148.00145,
+    "original_lat": -43.22506388888889,
+    "original_lon": 148.00145,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.9,
+    "distance_to_track_m": 1.5,
     "url": "photos/IMG_3038.JPEG"
   },
   {
@@ -553,8 +675,10 @@
     "caption": "IMG 3045",
     "lat": -43.225319444444445,
     "lon": 148.00145,
+    "original_lat": -43.225319444444445,
+    "original_lon": 148.00145,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 2.6,
+    "distance_to_track_m": 3.1,
     "url": "photos/IMG_3045.JPEG"
   },
   {
@@ -562,8 +686,10 @@
     "caption": "IMG 3052",
     "lat": -43.225636111111115,
     "lon": 148.00137222222222,
+    "original_lat": -43.225636111111115,
+    "original_lon": 148.00137222222222,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.4,
+    "distance_to_track_m": 1.3,
     "url": "photos/IMG_3052.JPEG"
   },
   {
@@ -571,6 +697,8 @@
     "caption": "IMG 3068",
     "lat": -43.225075000000004,
     "lon": 148.00145,
+    "original_lat": -43.225075000000004,
+    "original_lon": 148.00145,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
     "distance_to_track_m": 1.2,
     "url": "photos/IMG_3068.JPEG"
@@ -580,8 +708,10 @@
     "caption": "IMG 3077",
     "lat": -43.22408611111111,
     "lon": 148.00277777777777,
+    "original_lat": -43.22408611111111,
+    "original_lon": 148.00277777777777,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 5.3,
+    "distance_to_track_m": 5.4,
     "url": "photos/IMG_3077.JPEG"
   },
   {
@@ -589,8 +719,10 @@
     "caption": "IMG 3087",
     "lat": -43.221425,
     "lon": 148.00714166666666,
+    "original_lat": -43.221425,
+    "original_lon": 148.00714166666666,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.7,
+    "distance_to_track_m": 0.6,
     "url": "photos/IMG_3087.JPEG"
   },
   {
@@ -598,8 +730,10 @@
     "caption": "IMG 3090",
     "lat": -43.22157777777778,
     "lon": 148.0079027777778,
+    "original_lat": -43.22157777777778,
+    "original_lon": 148.0079027777778,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 0.1,
+    "distance_to_track_m": 0.2,
     "url": "photos/IMG_3090.JPEG"
   },
   {
@@ -607,8 +741,10 @@
     "caption": "IMG 3101",
     "lat": -43.22077222222222,
     "lon": 147.99252222222222,
+    "original_lat": -43.22077222222222,
+    "original_lon": 147.99252222222222,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 2.1,
+    "distance_to_track_m": 2.5,
     "url": "photos/IMG_3101.JPEG"
   },
   {
@@ -616,8 +752,10 @@
     "caption": "IMG 3107",
     "lat": -43.21445,
     "lon": 147.98288055555557,
+    "original_lat": -43.21445,
+    "original_lon": 147.98288055555557,
     "assigned_gpx": "Day_3a_Day_Pack_Cape_Pillar.gpx",
-    "distance_to_track_m": 3.4,
+    "distance_to_track_m": 3.9,
     "url": "photos/IMG_3107.JPEG"
   },
   {
@@ -625,8 +763,10 @@
     "caption": "IMG 3109",
     "lat": -43.18671111111111,
     "lon": 147.9519361111111,
+    "original_lat": -43.18671111111111,
+    "original_lon": 147.9519361111111,
     "assigned_gpx": "Day_2_Surveyors_Hut_to_Munro_Hut.gpx",
-    "distance_to_track_m": 1.8,
+    "distance_to_track_m": 2.0,
     "url": "photos/IMG_3109.JPEG"
   },
   {
@@ -634,8 +774,10 @@
     "caption": "IMG 3117",
     "lat": -43.181888888888885,
     "lon": 147.94892777777778,
+    "original_lat": -43.181888888888885,
+    "original_lon": 147.94892777777778,
     "assigned_gpx": "Day_3b_Munro_to_Retakunna.gpx",
-    "distance_to_track_m": 6.1,
+    "distance_to_track_m": 6.5,
     "url": "photos/IMG_3117.JPEG"
   },
   {
@@ -643,17 +785,21 @@
     "caption": "IMG 3121",
     "lat": -43.18042777777777,
     "lon": 147.9496777777778,
+    "original_lat": -43.18042777777777,
+    "original_lon": 147.9496777777778,
     "assigned_gpx": "Day_3b_Munro_to_Retakunna.gpx",
-    "distance_to_track_m": 5.4,
+    "distance_to_track_m": 5.8,
     "url": "photos/IMG_3121.JPEG"
   },
   {
     "file": "IMG_3122.JPEG",
     "caption": "IMG 3122",
-    "lat": -43.18060555555555,
-    "lon": 147.94999722222224,
+    "lat": -43.1803126,
+    "lon": 147.95000027,
+    "original_lat": -43.18060555555555,
+    "original_lon": 147.94999722222224,
     "assigned_gpx": "Day_3b_Munro_to_Retakunna.gpx",
-    "distance_to_track_m": 31.2,
+    "distance_to_track_m": 32.6,
     "url": "photos/IMG_3122.JPEG"
   },
   {
@@ -661,8 +807,10 @@
     "caption": "IMG 3133",
     "lat": -43.176361111111106,
     "lon": 147.95395,
+    "original_lat": -43.176361111111106,
+    "original_lon": 147.95395,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 14.3,
+    "distance_to_track_m": 14.1,
     "url": "photos/IMG_3133.JPEG"
   },
   {
@@ -670,8 +818,10 @@
     "caption": "IMG 3137",
     "lat": -43.17615555555555,
     "lon": 147.959625,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 1.2,
+    "original_lat": -43.17615555555555,
+    "original_lon": 147.959625,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 1.7,
     "url": "photos/IMG_3137.JPEG"
   },
   {
@@ -679,8 +829,10 @@
     "caption": "IMG 3147",
     "lat": -43.175044444444445,
     "lon": 147.96234166666665,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 1.1,
+    "original_lat": -43.175044444444445,
+    "original_lon": 147.96234166666665,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 0.5,
     "url": "photos/IMG_3147.JPEG"
   },
   {
@@ -688,8 +840,10 @@
     "caption": "IMG 3153",
     "lat": -43.17375555555555,
     "lon": 147.963225,
+    "original_lat": -43.17375555555555,
+    "original_lon": 147.963225,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 0.0,
+    "distance_to_track_m": 0.6,
     "url": "photos/IMG_3153.JPEG"
   },
   {
@@ -697,8 +851,10 @@
     "caption": "IMG 3167",
     "lat": -43.17188611111111,
     "lon": 147.96754444444446,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 3.6,
+    "original_lat": -43.17188611111111,
+    "original_lon": 147.96754444444446,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 4.5,
     "url": "photos/IMG_3167.JPEG"
   },
   {
@@ -706,8 +862,10 @@
     "caption": "IMG 3174",
     "lat": -43.16866388888889,
     "lon": 147.96885555555556,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 10.2,
+    "original_lat": -43.16866388888889,
+    "original_lon": 147.96885555555556,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 11.6,
     "url": "photos/IMG_3174.JPEG"
   },
   {
@@ -715,8 +873,10 @@
     "caption": "IMG 3191",
     "lat": -43.16625277777778,
     "lon": 147.97201666666666,
+    "original_lat": -43.16625277777778,
+    "original_lon": 147.97201666666666,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 1.0,
+    "distance_to_track_m": 0.5,
     "url": "photos/IMG_3191.JPEG"
   },
   {
@@ -724,6 +884,8 @@
     "caption": "IMG 3194",
     "lat": -43.163669444444444,
     "lon": 147.97313055555557,
+    "original_lat": -43.163669444444444,
+    "original_lon": 147.97313055555557,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
     "distance_to_track_m": 9.8,
     "url": "photos/IMG_3194.JPEG"
@@ -733,8 +895,10 @@
     "caption": "IMG 3203",
     "lat": -43.16076944444444,
     "lon": 147.9764111111111,
+    "original_lat": -43.16076944444444,
+    "original_lon": 147.9764111111111,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 0.3,
+    "distance_to_track_m": 1.4,
     "url": "photos/IMG_3203.JPEG"
   },
   {
@@ -742,8 +906,10 @@
     "caption": "IMG 3215",
     "lat": -43.15614444444444,
     "lon": 147.9804388888889,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 2.6,
+    "original_lat": -43.15614444444444,
+    "original_lon": 147.9804388888889,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 3.7,
     "url": "photos/IMG_3215.JPEG"
   },
   {
@@ -751,8 +917,10 @@
     "caption": "IMG 3226",
     "lat": -43.15345277777778,
     "lon": 147.98245277777778,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 1.0,
+    "original_lat": -43.15345277777778,
+    "original_lon": 147.98245277777778,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 0.7,
     "url": "photos/IMG_3226.JPEG"
   },
   {
@@ -760,8 +928,10 @@
     "caption": "IMG 3232",
     "lat": -43.15218611111111,
     "lon": 147.98641944444444,
+    "original_lat": -43.15218611111111,
+    "original_lon": 147.98641944444444,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 16.7,
+    "distance_to_track_m": 17.6,
     "url": "photos/IMG_3232.JPEG"
   },
   {
@@ -769,8 +939,10 @@
     "caption": "IMG 3236",
     "lat": -43.15226388888889,
     "lon": 147.98661666666666,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 3.1,
+    "original_lat": -43.15226388888889,
+    "original_lon": 147.98661666666666,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 3.8,
     "url": "photos/IMG_3236.JPEG"
   },
   {
@@ -778,8 +950,10 @@
     "caption": "IMG 3254",
     "lat": -43.14953888888889,
     "lon": 147.99359166666665,
+    "original_lat": -43.14953888888889,
+    "original_lon": 147.99359166666665,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 4.9,
+    "distance_to_track_m": 6.1,
     "url": "photos/IMG_3254.JPEG"
   },
   {
@@ -787,8 +961,10 @@
     "caption": "IMG 3273",
     "lat": -43.145577777777774,
     "lon": 147.99288888888887,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 3.4,
+    "original_lat": -43.145577777777774,
+    "original_lon": 147.99288888888887,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 3.7,
     "url": "photos/IMG_3273.JPEG"
   },
   {
@@ -796,8 +972,10 @@
     "caption": "IMG 3278",
     "lat": -43.144869444444446,
     "lon": 147.9939722222222,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 0.3,
+    "original_lat": -43.144869444444446,
+    "original_lon": 147.9939722222222,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 0.1,
     "url": "photos/IMG_3278.JPEG"
   },
   {
@@ -805,8 +983,10 @@
     "caption": "IMG 3297",
     "lat": -43.14363888888889,
     "lon": 148.0016777777778,
+    "original_lat": -43.14363888888889,
+    "original_lon": 148.0016777777778,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 13.9,
+    "distance_to_track_m": 14.3,
     "url": "photos/IMG_3297.JPEG"
   },
   {
@@ -814,17 +994,21 @@
     "caption": "IMG 3298",
     "lat": -43.14360555555555,
     "lon": 148.0018611111111,
+    "original_lat": -43.14360555555555,
+    "original_lon": 148.0018611111111,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 13.7,
+    "distance_to_track_m": 14.2,
     "url": "photos/IMG_3298.JPEG"
   },
   {
     "file": "IMG_3302.JPEG",
     "caption": "IMG 3302",
-    "lat": -43.14255277777778,
-    "lon": 148.00308333333334,
+    "lat": -43.14242503,
+    "lon": 148.00273794,
+    "original_lat": -43.14255277777778,
+    "original_lon": 148.00308333333334,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 30.6,
+    "distance_to_track_m": 31.4,
     "url": "photos/IMG_3302.JPEG"
   },
   {
@@ -832,8 +1016,10 @@
     "caption": "IMG 3307",
     "lat": -43.141422222222225,
     "lon": 148.0039361111111,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 0.8,
+    "original_lat": -43.141422222222225,
+    "original_lon": 148.0039361111111,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 0.5,
     "url": "photos/IMG_3307.JPEG"
   },
   {
@@ -841,8 +1027,10 @@
     "caption": "IMG 3312",
     "lat": -43.14078611111111,
     "lon": 148.00431944444443,
+    "original_lat": -43.14078611111111,
+    "original_lon": 148.00431944444443,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 0.2,
+    "distance_to_track_m": 0.4,
     "url": "photos/IMG_3312.JPEG"
   },
   {
@@ -850,7 +1038,9 @@
     "caption": "IMG 3316",
     "lat": -43.14005,
     "lon": 148.0047138888889,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
+    "original_lat": -43.14005,
+    "original_lon": 148.0047138888889,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
     "distance_to_track_m": 0.9,
     "url": "photos/IMG_3316.JPEG"
   },
@@ -859,8 +1049,10 @@
     "caption": "IMG 3324",
     "lat": -43.13967777777778,
     "lon": 148.0053111111111,
+    "original_lat": -43.13967777777778,
+    "original_lon": 148.0053111111111,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 1.2,
+    "distance_to_track_m": 1.3,
     "url": "photos/IMG_3324.JPEG"
   },
   {
@@ -868,8 +1060,10 @@
     "caption": "IMG 3325",
     "lat": -43.13966666666666,
     "lon": 148.0053111111111,
+    "original_lat": -43.13966666666666,
+    "original_lon": 148.0053111111111,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 1.0,
+    "distance_to_track_m": 0.2,
     "url": "photos/IMG_3325.JPEG"
   },
   {
@@ -877,8 +1071,10 @@
     "caption": "IMG 3329",
     "lat": -43.13964166666667,
     "lon": 148.0053861111111,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 2.9,
+    "original_lat": -43.13964166666667,
+    "original_lon": 148.0053861111111,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 3.7,
     "url": "photos/IMG_3329.JPEG"
   },
   {
@@ -886,8 +1082,10 @@
     "caption": "IMG 3332",
     "lat": -43.13967777777778,
     "lon": 148.00544722222222,
+    "original_lat": -43.13967777777778,
+    "original_lon": 148.00544722222222,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 7.7,
+    "distance_to_track_m": 9.0,
     "url": "photos/IMG_3332.JPEG"
   },
   {
@@ -895,8 +1093,10 @@
     "caption": "IMG 3334",
     "lat": -43.140033333333335,
     "lon": 148.00494444444445,
+    "original_lat": -43.140033333333335,
+    "original_lon": 148.00494444444445,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 12.8,
+    "distance_to_track_m": 13.3,
     "url": "photos/IMG_3334.JPEG"
   },
   {
@@ -904,8 +1104,10 @@
     "caption": "IMG 3341",
     "lat": -43.14397777777778,
     "lon": 148.00058055555556,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 5.5,
+    "original_lat": -43.14397777777778,
+    "original_lon": 148.00058055555556,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 5.1,
     "url": "photos/IMG_3341.JPEG"
   },
   {
@@ -913,8 +1115,10 @@
     "caption": "IMG 3355",
     "lat": -43.14516944444444,
     "lon": 147.98660277777776,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 2.0,
+    "original_lat": -43.14516944444444,
+    "original_lon": 147.98660277777776,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 1.8,
     "url": "photos/IMG_3355.JPEG"
   },
   {
@@ -922,8 +1126,10 @@
     "caption": "IMG 3366",
     "lat": -43.13847222222222,
     "lon": 147.98053055555556,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 12.6,
+    "original_lat": -43.13847222222222,
+    "original_lon": 147.98053055555556,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 13.2,
     "url": "photos/IMG_3366.JPEG"
   },
   {
@@ -931,8 +1137,10 @@
     "caption": "IMG 3371",
     "lat": -43.135955555555554,
     "lon": 147.97398333333334,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 8.7,
+    "original_lat": -43.135955555555554,
+    "original_lon": 147.97398333333334,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 9.5,
     "url": "photos/IMG_3371.JPEG"
   },
   {
@@ -940,6 +1148,8 @@
     "caption": "IMG 3375",
     "lat": -43.13548611111111,
     "lon": 147.97329722222221,
+    "original_lat": -43.13548611111111,
+    "original_lon": 147.97329722222221,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
     "distance_to_track_m": 1.0,
     "url": "photos/IMG_3375.JPEG"
@@ -949,8 +1159,10 @@
     "caption": "IMG 3385",
     "lat": -43.13816388888889,
     "lon": 147.97030555555557,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 14.0,
+    "original_lat": -43.13816388888889,
+    "original_lon": 147.97030555555557,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 14.6,
     "url": "photos/IMG_3385.JPEG"
   },
   {
@@ -958,8 +1170,10 @@
     "caption": "IMG 3391",
     "lat": -43.14179166666666,
     "lon": 147.9677888888889,
-    "assigned_gpx": "day_5_fdqwdqw.gpx",
-    "distance_to_track_m": 10.7,
+    "original_lat": -43.14179166666666,
+    "original_lon": 147.9677888888889,
+    "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
+    "distance_to_track_m": 10.3,
     "url": "photos/IMG_3391.JPEG"
   },
   {
@@ -967,8 +1181,10 @@
     "caption": "IMG 3400",
     "lat": -43.14288055555556,
     "lon": 147.9632861111111,
+    "original_lat": -43.14288055555556,
+    "original_lon": 147.9632861111111,
     "assigned_gpx": "Day_4_Retakunna_to_Fortescue_with_Cape_Hauy.gpx",
-    "distance_to_track_m": 1.3,
+    "distance_to_track_m": 3.0,
     "url": "photos/IMG_3400.JPEG"
   }
 ]
